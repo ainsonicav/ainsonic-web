@@ -101,10 +101,19 @@ p{margin:0}
 .hero p.lead{font-size:17px;color:var(--hero-dim);max-width:34em}
 .hero .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
 .hero .btn-main{background:var(--teal);color:#06222A}
-.hero .meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:28px;font-family:var(--mono);font-size:13px;color:var(--hero-dim)}
+.hero .meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:28px;font-size:13.5px;color:var(--hero-dim)}
 .hero .meta span::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--teal);margin-right:8px;vertical-align:middle}
 .diagram{background:var(--hero-2);border:1px solid var(--hero-line);border-radius:14px;padding:16px}
 .diagram svg{display:block;width:100%;height:auto}
+.mflow{display:none;list-style:none;margin:0;padding:0;flex-direction:column;gap:10px}
+.mflow li{display:grid;grid-template-columns:62px 1fr auto 1fr auto 1fr;align-items:center;gap:4px}
+.mflow .k{font-family:var(--mono);font-size:10px;color:#7FA3C9;letter-spacing:.04em}
+.mflow .n{background:#16355F;border:1px solid #3B6394;border-radius:6px;padding:7px 2px;font-size:12.5px;text-align:center;white-space:nowrap;color:#fff}
+.mflow i{font-style:normal;color:var(--teal);font-size:12px}
+.mflow .bus,.mflow .ctl{display:block;text-align:center;font-size:12.5px;white-space:nowrap}
+.mflow .bus span{display:block;border:1px solid var(--teal);border-radius:6px;padding:7px;background:#0E2442;margin-top:4px}
+.mflow .ctl span{display:inline-block;background:var(--teal);color:#06222A;font-weight:700;border-radius:999px;padding:6px 16px}
+@media (max-width:600px){.diagram svg{display:none}.mflow{display:flex}}
 .diagram .cap{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--hero-dim);letter-spacing:.08em;margin-bottom:8px}
 .flow{stroke-dasharray:6 8;animation:flow 1.6s linear infinite}
 @keyframes flow{to{stroke-dashoffset:-28}}
@@ -132,6 +141,7 @@ section.alt .svc article{background:var(--bg)}
 @media (max-width:760px){.spaces{grid-template-columns:1fr}}
 .space{border:1px solid var(--line);border-radius:14px;padding:24px;background:var(--surface);display:grid;grid-template-columns:auto 1fr;gap:6px 18px}
 .space svg{grid-row:1/3;width:44px;height:44px;color:var(--accent)}
+@media (max-width:560px){.space{padding:20px;gap:10px 14px;align-items:center}.space svg{grid-row:auto;width:34px;height:34px}.space p,.space .kit.kit{grid-column:1/-1}.space .kit{margin-top:2px}}
 .space h3{font-size:18px;font-weight:700}
 .space p{font-size:14.5px;color:var(--ink-2)}
 .space .kit{grid-column:2;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
@@ -150,8 +160,9 @@ section.alt .steps li .dot{box-shadow:0 0 0 4px var(--surface)}
 
 /* 브랜드 */
 .brands{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-@media (max-width:760px){.brands{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 .brands div{background:var(--surface);padding:22px 16px;display:flex;flex-direction:column;gap:4px}
+@media (max-width:760px){.brands{grid-template-columns:1fr}.brands div{flex-direction:row;justify-content:space-between;align-items:baseline;gap:12px;padding:14px 16px}.brands b,.brands small{white-space:nowrap}}
 .brands b{font-family:var(--word);font-size:15px;font-weight:600;letter-spacing:.01em}
 .brands small{font-size:12.5px;color:var(--ink-3)}
 .dealer{margin-top:24px;display:flex;flex-wrap:wrap;gap:12px 28px;font-size:14.5px;color:var(--ink-2)}
@@ -168,6 +179,7 @@ section.alt .steps li .dot{box-shadow:0 0 0 4px var(--surface)}
 .list .empty{padding:24px 0;color:var(--ink-3);font-size:14.5px;border-bottom:1px solid var(--line)}
 .nt{border-bottom:1px solid var(--line)}
 .nt summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:baseline;padding:16px 0}
+@media (max-width:560px){.nt summary{grid-template-columns:1fr;gap:4px}}
 .nt summary::-webkit-details-marker{display:none}
 .nt .t{font-weight:600;font-size:15.5px}
 .nt .d,.nw .d{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -179,7 +191,8 @@ section.alt .steps li .dot{box-shadow:0 0 0 4px var(--surface)}
 .nw{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none}
 .nw .c{font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:4px;padding:1px 8px;align-self:start;margin-top:3px;white-space:nowrap}
 .nw .t{font-weight:600;font-size:15px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.nw .m{grid-column:2;font-size:12.5px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:2px 10px}
+.nw .m{grid-column:2;font-size:12.5px;color:var(--ink-3);display:flex;gap:10px;min-width:0}
+.nw .m .b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .nw .m .b{font-family:var(--word);font-weight:600;color:var(--ink-2)}
 .nw:hover .t{color:var(--accent)}
 .src{font-size:12.5px;color:var(--ink-3);margin-top:12px}
@@ -229,6 +242,8 @@ section.alt .steps li .dot{box-shadow:0 0 0 4px var(--surface)}
 /* 하단 */
 footer{background:var(--hero);color:var(--hero-dim);padding-block:48px;font-size:13.5px}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px}
+.keep{white-space:nowrap}
+@media (max-width:640px){footer .fmeta.r{text-align:left!important}}
 footer .brand b{color:#fff}
 footer .fmeta{margin-top:14px;line-height:1.9}
 footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var(--teal);margin-top:6px}
@@ -238,7 +253,7 @@ footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var
   <div class="wrap">
     <a class="brand" href="#top" aria-label="아인소닉 처음으로"><img src="assets/mark.png" alt="" width="34" height="34"><b>AINSONIC</b></a>
     <nav class="menu" aria-label="주요 메뉴">
-      <a href="#services">사업영역</a><a href="#spaces">적용 공간</a><a href="#brands">취급 브랜드</a><a href="#notice">공지사항</a><a href="#news">업계 소식</a><a href="#faq">자주 묻는 질문</a>
+      <a href="#services">사업영역</a><a href="#solutions">솔루션</a><a href="#brands">취급 브랜드</a><a href="#notice">공지사항</a><a href="#news">업계 소식</a><a href="#faq">자주 묻는 질문</a>
     </nav>
     <div class="nav-cta">
       <a class="tel" href="tel:01035996733">010-3599-6733</a>
@@ -298,6 +313,13 @@ footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var
           <rect x="190" y="330" width="180" height="26" rx="13" fill="#11ADAC"/>
           <text x="280" y="347" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif" font-size="12.5" font-weight="700" fill="#06222A">통합제어 패널 한 곳에서</text>
         </svg>
+        <ol class="mflow" aria-hidden="true">
+          <li><span class="k">AUDIO</span><span class="n">마이크</span><i>→</i><span class="n">DSP·믹서</span><i>→</i><span class="n">스피커</span></li>
+          <li><span class="k">VIDEO</span><span class="n">카메라·PC</span><i>→</i><span class="n">스위처</span><i>→</i><span class="n">디스플레이</span></li>
+          <li><span class="k">SECURITY</span><span class="n">IP 카메라</span><i>→</i><span class="n">NVR</span><i>→</i><span class="n">휴대폰</span></li>
+          <li class="bus"><span>네트워크 · PoE 스위치</span></li>
+          <li class="ctl"><span>통합제어 패널 한 곳에서</span></li>
+        </ol>
       </figure>
     </div>
   </section>
@@ -319,11 +341,11 @@ footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var
     </div>
   </section>
 
-  <section class="sec alt" id="spaces">
+  <section class="sec alt" id="solutions">
     <div class="wrap">
       <div class="head">
-        <div class="label">Spaces</div>
-        <h2>이런 공간을 시공합니다</h2>
+        <div class="label">Solutions</div>
+        <h2>공간별 솔루션</h2>
       </div>
       <div class="spaces">
         <div class="space">
@@ -435,7 +457,7 @@ footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var
         <div class="info">
           <div class="row"><span class="k">전화</span><span class="v mono" id="telText">010-3599-6733<button class="copy" type="button" data-copy="010-3599-6733">복사</button></span></div>
           <div class="row"><span class="k">이메일</span><span class="v mono">ainsonicav@gmail.com<button class="copy" type="button" data-copy="ainsonicav@gmail.com">복사</button></span></div>
-          <div class="row"><span class="k">주소</span><span class="v">경기도 안산시 상록구 예술광장1로 115, 상가동 106호<br><a href="https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%95%88%EC%82%B0%EC%8B%9C%20%EC%83%81%EB%A1%9D%EA%B5%AC%20%EC%98%88%EC%88%A0%EA%B4%91%EC%9E%A51%EB%A1%9C%20115" target="_blank" rel="noopener" style="color:var(--accent);font-size:14px">네이버 지도에서 보기 →</a></span></div>
+          <div class="row"><span class="k">주소</span><span class="v"><span class="keep">경기도 안산시 상록구</span> <span class="keep">예술광장1로 115,</span> <span class="keep">상가동 106호</span><br><a href="https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%95%88%EC%82%B0%EC%8B%9C%20%EC%83%81%EB%A1%9D%EA%B5%AC%20%EC%98%88%EC%88%A0%EA%B4%91%EC%9E%A51%EB%A1%9C%20115" target="_blank" rel="noopener" style="color:var(--accent);font-size:14px">네이버 지도에서 보기 →</a></span></div>
         </div>
       </div>
 
@@ -475,9 +497,9 @@ footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var
     <div>
       <a class="brand" href="#top"><img src="assets/mark.png" alt="" width="34" height="34"><b>AINSONIC</b></a>
       <div class="tag">SOUND | VISION | INNOVATION</div>
-      <div class="fmeta">아인소닉 · 사업자등록번호 750-11-00912<br>경기도 안산시 상록구 예술광장1로 115, 상가동 106호<br>010-3599-6733 · ainsonicav@gmail.com</div>
+      <div class="fmeta">아인소닉 · <span class="keep">사업자등록번호 750-11-00912</span><br><span class="keep">경기도 안산시 상록구</span> <span class="keep">예술광장1로 115, 상가동 106호</span><br><span class="keep">010-3599-6733</span> · <span class="keep">ainsonicav@gmail.com</span></div>
     </div>
-    <div class="fmeta" style="text-align:right;margin-top:0">삼아사운드 공식 대리점 · 협력사 디엠시정보<br>www.ainsonic.com<br>© 2026 Ainsonic</div>
+    <div class="fmeta r" style="text-align:right;margin-top:0">삼아사운드 공식 대리점 · 협력사 디엠시정보<br>www.ainsonic.com<br>© 2026 Ainsonic</div>
   </div>
 </footer>
 
