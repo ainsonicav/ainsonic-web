@@ -178,9 +178,10 @@ section.alt .steps li .dot{box-shadow:0 0 0 4px var(--surface)}
 .nt .body{padding:0 0 20px;color:var(--ink-2);font-size:15px;white-space:pre-line}
 .nw{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none}
 .nw .c{font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:4px;padding:1px 8px;align-self:start;margin-top:3px;white-space:nowrap}
-.nw .t{font-weight:600;font-size:15px;line-height:1.5}
+.nw .t{font-weight:600;font-size:15px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nw .m{grid-column:2;font-size:12.5px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:2px 10px}
+.nw .m .b{font-family:var(--word);font-weight:600;color:var(--ink-2)}
 .nw:hover .t{color:var(--accent)}
-.nw .d{grid-column:2}
 .src{font-size:12.5px;color:var(--ink-3);margin-top:12px}
 
 /* FAQ */
@@ -522,7 +523,8 @@ async function loadNews(){
       const g=t=>(it.querySelector(t)?.textContent||"").trim();
       const cat=g("category");let title=g("title");if(cat)title=title.replace(new RegExp("^\\["+cat.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\]\\s*"),"");
       const d=new Date(g("pubDate"));const link=g("link");
-      return `<a class="nw" href="${/^https?:\/\//.test(link)?esc(link):"https://news.ainsonic.com/"}" target="_blank" rel="noopener">${cat?`<span class="c">${esc(cat)}</span>`:"<span></span>"}<span class="t">${esc(title)}</span><span class="d">${isNaN(d)?"":ymd(d)}</span></a>`}).join("");
+      let summary=g("description");if(summary){summary=(new DOMParser().parseFromString(summary,"text/html").body.textContent||"").replace(/\s+/g," ").trim()}
+      return `<a class="nw" href="${/^https?:\/\//.test(link)?esc(link):"https://news.ainsonic.com/"}" target="_blank" rel="noopener">${cat?`<span class="c">${esc(cat)}</span>`:"<span></span>"}<span class="t">${esc(summary||title)}</span><span class="m">${summary?`<span class="b">${esc(title)}</span>`:""}<span class="d">${isNaN(d)?"":ymd(d)}</span></span></a>`}).join("");
   }catch(e){box.innerHTML='<div class="empty">업계 소식을 불러오지 못했습니다. <a href="https://news.ainsonic.com/" target="_blank" rel="noopener" style="color:var(--accent)">PRO AUDIO WIRE에서 보기</a></div>'}
 }
 loadNotices();loadNews();
