@@ -7,6 +7,7 @@
 <meta name="description" content="아인소닉은 안산 기반 음향·영상·CCTV·네트워크·통합제어 장비 설계 시공 기업입니다. 교회, 회의실, 상가·주택 CCTV, 교육시설. 삼아사운드 공식 대리점. 010-3599-6733">
 <link rel="canonical" href="https://www.ainsonic.com/">
 <link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="alternate" type="application/rss+xml" title="PRO AUDIO WIRE" href="https://news.ainsonic.com/rss.xml">
 <meta property="og:type" content="website">
 <meta property="og:title" content="아인소닉 Ainsonic">
 <meta property="og:description" content="소리, 영상, 보안, 네트워크를 하나의 시스템으로 설계합니다.">
@@ -86,7 +87,7 @@ p{margin:0}
 .btn-line{border-color:var(--hero-line);color:var(--hero-ink);background:transparent}
 .btn-line:hover{border-color:var(--teal)}
 .btn-sm{padding:8px 14px;font-size:14px}
-@media (max-width:900px){.menu{display:none}}
+@media (max-width:1040px){.menu{display:none}}
 @media (max-width:480px){.tel{display:none}}
 
 /* 메인 */
@@ -156,6 +157,32 @@ section.alt .steps li .dot{box-shadow:0 0 0 4px var(--surface)}
 .dealer{margin-top:24px;display:flex;flex-wrap:wrap;gap:12px 28px;font-size:14.5px;color:var(--ink-2)}
 .dealer b{color:var(--ink)}
 
+/* 공지·소식 */
+.board{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px}
+@media (max-width:900px){.board{grid-template-columns:1fr;gap:56px}}
+.board h2{font-size:clamp(22px,2.6vw,28px);font-weight:700;margin-top:8px}
+.bhead{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:18px}
+.more{font-size:14px;color:var(--accent);text-decoration:none;white-space:nowrap;font-weight:500}
+.more:hover{text-decoration:underline}
+.list{border-top:2px solid var(--ink);display:flex;flex-direction:column}
+.list .empty{padding:24px 0;color:var(--ink-3);font-size:14.5px;border-bottom:1px solid var(--line)}
+.nt{border-bottom:1px solid var(--line)}
+.nt summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:baseline;padding:16px 0}
+.nt summary::-webkit-details-marker{display:none}
+.nt .t{font-weight:600;font-size:15.5px}
+.nt .d,.nw .d{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums}
+.pin{display:inline-block;vertical-align:2px;margin-right:4px;font-size:11.5px;font-weight:600;color:#fff;background:var(--navy);border-radius:4px;padding:1px 7px}
+:root[data-theme="dark"] .pin{background:var(--teal);color:#06222A}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pin{background:var(--teal);color:#06222A}}
+.nt .no{font-family:var(--mono);font-size:12px;color:var(--ink-3);min-width:26px}
+.nt .body{padding:0 0 20px;color:var(--ink-2);font-size:15px;white-space:pre-line}
+.nw{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none}
+.nw .c{font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:4px;padding:1px 8px;align-self:start;margin-top:3px;white-space:nowrap}
+.nw .t{font-weight:600;font-size:15px;line-height:1.5}
+.nw:hover .t{color:var(--accent)}
+.nw .d{grid-column:2}
+.src{font-size:12.5px;color:var(--ink-3);margin-top:12px}
+
 /* FAQ */
 .faq{max-width:820px;border-top:1px solid var(--line)}
 .faq details{border-bottom:1px solid var(--line)}
@@ -210,7 +237,7 @@ footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var
   <div class="wrap">
     <a class="brand" href="#top" aria-label="아인소닉 처음으로"><img src="assets/mark.png" alt="" width="34" height="34"><b>AINSONIC</b></a>
     <nav class="menu" aria-label="주요 메뉴">
-      <a href="#services">사업영역</a><a href="#spaces">적용 공간</a><a href="#process">진행 과정</a><a href="#brands">취급 브랜드</a><a href="#faq">자주 묻는 질문</a>
+      <a href="#services">사업영역</a><a href="#spaces">적용 공간</a><a href="#brands">취급 브랜드</a><a href="#notice">공지사항</a><a href="#news">업계 소식</a><a href="#faq">자주 묻는 질문</a>
     </nav>
     <div class="nav-cta">
       <a class="tel" href="tel:01035996733">010-3599-6733</a>
@@ -365,7 +392,21 @@ footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var
     </div>
   </section>
 
-  <section class="sec" id="faq">
+  <section class="sec" id="board">
+    <div class="wrap board">
+      <div id="notice">
+        <div class="bhead"><div><div class="label">Notice</div><h2>공지사항</h2></div></div>
+        <div class="list" id="noticeList"><div class="empty">공지사항을 불러오는 중입니다.</div></div>
+      </div>
+      <div id="news">
+        <div class="bhead"><div><div class="label">Industry News</div><h2>업계 소식</h2></div><a class="more" href="https://news.ainsonic.com/" target="_blank" rel="noopener">전체 보기 →</a></div>
+        <div class="list" id="newsList"><div class="empty">업계 소식을 불러오는 중입니다.</div></div>
+        <p class="src">프로오디오 업계 소식 큐레이션 <a href="https://news.ainsonic.com/" target="_blank" rel="noopener" style="color:var(--accent)">PRO AUDIO WIRE</a> 제공</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt" id="faq">
     <div class="wrap">
       <div class="head">
         <div class="label">FAQ</div>
@@ -382,7 +423,7 @@ footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var
     </div>
   </section>
 
-  <section class="sec alt" id="contact">
+  <section class="sec" id="contact">
     <div class="wrap contact">
       <div>
         <div class="head" style="margin-bottom:28px">
@@ -440,11 +481,51 @@ footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var
 </footer>
 
 <script>
+/* 공지사항: 구글 시트 "아인소닉 공지사항" (링크가 있는 모든 사용자 보기 권한 필요) */
+const NOTICE_SHEET_ID = "1bWOoTYp77Ig1ERvC_EoZtMEANtLIKTBsNg-QT80gKfg";
+/* 업계 소식: PRO AUDIO WIRE RSS */
+const NEWS_RSS = "https://news.ainsonic.com/rss.xml";
+
 /* 구글 Apps Script 웹 앱 주소. 배포 후 여기에 붙여넣습니다. */
 const INQUIRY_ENDPOINT = "";
 
 const $ = s => document.querySelector(s);
 function phoneFmt(v){const d=v.replace(/\D/g,"");if(d.length===11)return d.replace(/(\d{3})(\d{4})(\d{4})/,"$1-$2-$3");if(d.length===10)return d.replace(/(\d{2,3})(\d{3,4})(\d{4})/,"$1-$2-$3");return v.trim()}
+
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function parseCSV(t){const rows=[];let row=[],f="",q=false;for(let i=0;i<t.length;i++){const c=t[i];
+  if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+  else if(c==='"')q=true;else if(c===","){row.push(f);f=""}else if(c==="\n"){row.push(f);rows.push(row);row=[];f=""}else if(c!=="\r")f+=c}
+  if(f||row.length){row.push(f);rows.push(row)}return rows}
+function ymd(d){const p=n=>String(n).padStart(2,"0");return `${d.getFullYear()}.${p(d.getMonth()+1)}.${p(d.getDate())}`}
+
+async function loadNotices(){
+  const box=$("#noticeList");
+  try{
+    const r=await fetch(`https://docs.google.com/spreadsheets/d/${NOTICE_SHEET_ID}/gviz/tq?tqx=out:csv`);
+    if(!r.ok)throw 0;
+    const rows=parseCSV(await r.text()).slice(1).filter(x=>x[1]&&x[1].trim());
+    if(!rows.length){box.innerHTML='<div class="empty">등록된 공지사항이 없습니다.</div>';return}
+    const items=rows.map(x=>({date:(x[0]||"").trim(),title:x[1].trim(),body:(x[2]||"").trim(),pin:/^(y|yes|o|예|고정|true|1)$/i.test((x[3]||"").trim())}))
+      .sort((a,b)=>(b.pin-a.pin)||b.date.localeCompare(a.date)).slice(0,5);
+    box.innerHTML=items.map((n,i)=>`<details class="nt"><summary><span class="t">${n.pin?'<span class="pin">공지</span> ':""}${esc(n.title)}</span><span class="d">${esc(n.date.replace(/-/g,"."))}</span></summary>${n.body?`<div class="body">${esc(n.body)}</div>`:""}</details>`).join("");
+  }catch(e){box.innerHTML='<div class="empty">공지사항을 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.</div>'}
+}
+async function loadNews(){
+  const box=$("#newsList");
+  try{
+    const r=await fetch(NEWS_RSS);if(!r.ok)throw 0;
+    const x=new DOMParser().parseFromString(await r.text(),"text/xml");
+    const items=[...x.querySelectorAll("item")].slice(0,5);
+    if(!items.length)throw 0;
+    box.innerHTML=items.map(it=>{
+      const g=t=>(it.querySelector(t)?.textContent||"").trim();
+      const cat=g("category");let title=g("title");if(cat)title=title.replace(new RegExp("^\\["+cat.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\]\\s*"),"");
+      const d=new Date(g("pubDate"));const link=g("link");
+      return `<a class="nw" href="${/^https?:\/\//.test(link)?esc(link):"https://news.ainsonic.com/"}" target="_blank" rel="noopener">${cat?`<span class="c">${esc(cat)}</span>`:"<span></span>"}<span class="t">${esc(title)}</span><span class="d">${isNaN(d)?"":ymd(d)}</span></a>`}).join("");
+  }catch(e){box.innerHTML='<div class="empty">업계 소식을 불러오지 못했습니다. <a href="https://news.ainsonic.com/" target="_blank" rel="noopener" style="color:var(--accent)">PRO AUDIO WIRE에서 보기</a></div>'}
+}
+loadNotices();loadNews();
 
 document.querySelectorAll(".copy").forEach(b=>b.addEventListener("click",async()=>{
   try{await navigator.clipboard.writeText(b.dataset.copy);b.textContent="복사됨"}
