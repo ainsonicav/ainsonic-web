@@ -260,6 +260,31 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px}
 footer .brand b{color:#fff}
 footer .fmeta{margin-top:14px;line-height:1.9}
 footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var(--teal);margin-top:6px}
+
+/* 폰 가독성 보강: 좁은 화면(320~400px)에서 넘침·잘림 방지 */
+@media (max-width:900px){.hero .wrap{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:600px){
+  .mflow li{grid-template-columns:54px minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);gap:3px}
+  .mflow .k{font-size:11px}
+  .diagram .cap{font-size:11.5px}
+  .nw .m{flex-wrap:wrap;row-gap:2px}
+  .nw .m .b{white-space:normal}
+  footer .tag{font-size:12px}
+}
+@media (max-width:380px){
+  .nav .wrap{gap:10px}
+  .brand{gap:8px}
+  .brand img{width:30px;height:30px}
+  .brand b{font-size:16px;letter-spacing:.08em}
+  .nav-cta{gap:8px}
+  .nav-cta .btn-sm{padding:8px 11px}
+  .hero h1{font-size:30px}
+  .hero .label{letter-spacing:.06em}
+  .info .row{grid-template-columns:56px 1fr}
+  .mflow li{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);row-gap:4px}
+  .mflow .k{grid-column:1/-1}
+}
+.empty a{white-space:nowrap}
 </style>
 
 <header class="nav">
