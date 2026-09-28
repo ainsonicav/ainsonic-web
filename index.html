@@ -546,8 +546,8 @@ footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var
 </footer>
 
 <script>
-/* 공지사항: 구글 시트 "아인소닉 공지사항" (링크가 있는 모든 사용자 보기 권한 필요) */
-const NOTICE_SHEET_ID = "1bWOoTYp77Ig1ERvC_EoZtMEANtLIKTBsNg-QT80gKfg";
+/* 공지사항: 업무센터에서 관리 → notices.json으로 자동 반영(같은 저장소, 정기 작업이 커밋) */
+const NOTICE_JSON_URL = "/notices.json";
 /* 업계 소식: PRO AUDIO WIRE RSS */
 const NEWS_RSS = "https://news.ainsonic.com/rss.xml";
 
@@ -567,13 +567,11 @@ function ymd(d){const p=n=>String(n).padStart(2,"0");return `${d.getFullYear()}.
 async function loadNotices(){
   const box=$("#noticeList");
   try{
-    const r=await fetch(`https://docs.google.com/spreadsheets/d/${NOTICE_SHEET_ID}/gviz/tq?tqx=out:csv`);
+    const r=await fetch(NOTICE_JSON_URL+"?_="+Date.now());
     if(!r.ok)throw 0;
-    const rows=parseCSV(await r.text()).slice(1).filter(x=>x[1]&&x[1].trim());
-    if(!rows.length){box.innerHTML='<div class="empty">등록된 공지사항이 없습니다.</div>';return}
-    const items=rows.map(x=>({date:(x[0]||"").trim(),title:x[1].trim(),body:(x[2]||"").trim(),pin:/^(y|yes|o|예|고정|true|1)$/i.test((x[3]||"").trim())}))
-      .sort((a,b)=>(b.pin-a.pin)||b.date.localeCompare(a.date)).slice(0,5);
-    box.innerHTML=items.map((n,i)=>`<details class="nt"><summary><span class="t">${n.pin?'<span class="pin">공지</span> ':""}${esc(n.title)}</span><span class="d">${esc(n.date.replace(/-/g,"."))}</span></summary>${n.body?`<div class="body">${esc(n.body)}</div>`:""}</details>`).join("");
+    const items=(await r.json()).slice(0,5);
+    if(!items.length){box.innerHTML='<div class="empty">등록된 공지사항이 없습니다.</div>';return}
+    box.innerHTML=items.map((n,i)=>`<details class="nt"><summary><span class="t">${n.pinned?'<span class="pin">공지</span> ':""}${esc(n.title)}</span><span class="d">${esc(String(n.date||"").replace(/-/g,"."))}</span></summary>${n.content?`<div class="body">${esc(n.content)}</div>`:""}</details>`).join("");
   }catch(e){box.innerHTML='<div class="empty">공지사항을 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.</div>'}
 }
 async function loadNews(){
