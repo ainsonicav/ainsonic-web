@@ -210,6 +210,21 @@ section.alt .steps li .dot{box-shadow:0 0 0 4px var(--surface)}
 .nw:hover .t{color:var(--accent)}
 .src{font-size:12.5px;color:var(--ink-3);margin-top:12px}
 
+/* 배너 하단 업계 소식 요약 스트립 */
+.newsbar{padding-block:22px;background:var(--surface);border-block:1px solid var(--line)}
+.nb-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+.nb-tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.nb-head a{font-size:12.5px;color:var(--ink-3);text-decoration:none;white-space:nowrap}
+.nb-head a:hover{color:var(--accent)}
+.nb-list{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.nb-list .empty{grid-column:1/-1;padding:14px;font-size:13px;color:var(--ink-3);background:var(--surface)}
+.nw-mini{display:block;background:var(--surface);padding:11px 13px;text-decoration:none;min-width:0}
+.nw-mini .c{display:block;font-size:10.5px;font-weight:600;color:var(--accent);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nw-mini .t{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:12.5px;font-weight:600;line-height:1.45;color:var(--ink)}
+.nw-mini:hover .t{color:var(--accent)}
+@media (max-width:900px){.nb-list{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.nb-list{grid-template-columns:repeat(2,1fr)}}
+
 /* FAQ */
 .faq{max-width:820px;border-top:1px solid var(--line)}
 .faq details{border-bottom:1px solid var(--line)}
@@ -363,6 +378,13 @@ footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var
           <li class="ctl"><span>통합제어 패널 한 곳에서</span></li>
         </ol>
       </figure>
+    </div>
+  </section>
+
+  <section class="newsbar">
+    <div class="wrap">
+      <div class="nb-head"><span class="nb-tag">Industry News</span><a href="https://news.ainsonic.com/" target="_blank" rel="noopener">PRO AUDIO WIRE 전체 보기 →</a></div>
+      <div class="nb-list" id="newsTopList"><div class="empty">업계 소식을 불러오는 중입니다.</div></div>
     </div>
   </section>
 
@@ -575,19 +597,29 @@ async function loadNotices(){
   }catch(e){box.innerHTML='<div class="empty">공지사항을 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.</div>'}
 }
 async function loadNews(){
-  const box=$("#newsList");
+  const box=$("#newsList"),mini=$("#newsTopList");
   try{
     const r=await fetch(NEWS_RSS);if(!r.ok)throw 0;
     const x=new DOMParser().parseFromString(await r.text(),"text/xml");
-    const items=[...x.querySelectorAll("item")].slice(0,5);
-    if(!items.length)throw 0;
-    box.innerHTML=items.map(it=>{
+    const all=[...x.querySelectorAll("item")];
+    if(!all.length)throw 0;
+    const parse=it=>{
       const g=t=>(it.querySelector(t)?.textContent||"").trim();
       const cat=g("category");let title=g("title");if(cat)title=title.replace(new RegExp("^\\["+cat.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\]\\s*"),"");
       const d=new Date(g("pubDate"));const link=g("link");
       let summary=g("description");if(summary){summary=(new DOMParser().parseFromString(summary,"text/html").body.textContent||"").replace(/\s+/g," ").trim()}
-      return `<a class="nw" href="${/^https?:\/\//.test(link)?esc(link):"https://news.ainsonic.com/"}" target="_blank" rel="noopener">${cat?`<span class="c">${esc(cat)}</span>`:"<span></span>"}<span class="t">${esc(summary||title)}</span><span class="m">${summary?`<span class="b">${esc(title)}</span>`:""}<span class="d">${isNaN(d)?"":ymd(d)}</span></span></a>`}).join("");
-  }catch(e){box.innerHTML='<div class="empty">업계 소식을 불러오지 못했습니다. <a href="https://news.ainsonic.com/" target="_blank" rel="noopener" style="color:var(--accent)">PRO AUDIO WIRE에서 보기</a></div>'}
+      return {cat,title,summary,d,href:/^https?:\/\//.test(link)?link:"https://news.ainsonic.com/"};
+    };
+    const items=all.slice(0,5).map(parse);
+    box.innerHTML=items.map(n=>`<a class="nw" href="${esc(n.href)}" target="_blank" rel="noopener">${n.cat?`<span class="c">${esc(n.cat)}</span>`:"<span></span>"}<span class="t">${esc(n.summary||n.title)}</span><span class="m">${n.summary?`<span class="b">${esc(n.title)}</span>`:""}<span class="d">${isNaN(n.d)?"":ymd(n.d)}</span></span></a>`).join("");
+    if(mini){
+      const top6=all.slice(0,6).map(parse);
+      mini.innerHTML=top6.map(n=>`<a class="nw-mini" href="${esc(n.href)}" target="_blank" rel="noopener">${n.cat?`<span class="c">${esc(n.cat)}</span>`:""}<span class="t">${esc(n.title)}</span></a>`).join("");
+    }
+  }catch(e){
+    box.innerHTML='<div class="empty">업계 소식을 불러오지 못했습니다. <a href="https://news.ainsonic.com/" target="_blank" rel="noopener" style="color:var(--accent)">PRO AUDIO WIRE에서 보기</a></div>';
+    if(mini)mini.innerHTML='<div class="empty">업계 소식을 불러오지 못했습니다. <a href="https://news.ainsonic.com/" target="_blank" rel="noopener" style="color:var(--accent)">PRO AUDIO WIRE에서 보기</a></div>';
+  }
 }
 loadNotices();loadNews();
 
