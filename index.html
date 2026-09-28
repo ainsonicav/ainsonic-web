@@ -104,8 +104,19 @@ p{margin:0}
 
 /* 메인 */
 .hero{background:var(--hero);color:var(--hero-ink);padding-block:64px 72px;position:relative;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--hero-line) 1px,transparent 1px),linear-gradient(90deg,var(--hero-line) 1px,transparent 1px);background-size:32px 32px;opacity:.35;pointer-events:none}
-.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:48px;align-items:center}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;background-image:linear-gradient(var(--hero-line) 1px,transparent 1px),linear-gradient(90deg,var(--hero-line) 1px,transparent 1px);background-size:32px 32px;opacity:.35;pointer-events:none}
+.hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-bg .sl{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1s ease}
+.hero-bg .sl.on{opacity:1}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,22,41,.62),rgba(9,22,41,.8))}
+.hero-dots{position:absolute;left:50%;transform:translateX(-50%);bottom:12px;z-index:2;display:flex;gap:6px}
+.hero-dots button{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35);border:0;padding:0;cursor:pointer}
+.hero-dots button.on{background:#fff}
+.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:34px;height:34px;border-radius:50%;background:rgba(9,22,41,.45);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;line-height:1}
+.hero-arrow:hover{background:rgba(9,22,41,.7)}
+.hero-arrow.prev{left:14px}.hero-arrow.next{right:14px}
+@media (max-width:640px){.hero-arrow{display:none}}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:48px;align-items:center}
 @media (max-width:900px){.hero .wrap{grid-template-columns:1fr;gap:36px}}
 .hero .label{color:var(--teal)}
 .hero h1{font-size:clamp(32px,5vw,52px);font-weight:700;margin:16px 0 20px;line-height:1.22}
@@ -327,7 +338,8 @@ footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var
 </header>
 
 <main id="top">
-  <section class="hero">
+  <section class="hero" id="hero">
+    <div class="hero-bg" id="heroBg" hidden></div>
     <div class="wrap">
       <div>
         <div class="label">Sound · Vision · Security · Network</div>
@@ -386,6 +398,9 @@ footer .tag{font-family:var(--word);font-size:11px;letter-spacing:.2em;color:var
         </ol>
       </figure>
     </div>
+    <button class="hero-arrow prev" id="heroPrev" type="button" aria-label="이전 배너" hidden>‹</button>
+    <button class="hero-arrow next" id="heroNext" type="button" aria-label="다음 배너" hidden>›</button>
+    <div class="hero-dots" id="heroDots" hidden></div>
   </section>
 
   <section class="newsbar">
@@ -670,7 +685,54 @@ async function loadFeatured(){
     box.innerHTML='<div class="empty">업계 소식을 불러오지 못했습니다. <a href="https://news.ainsonic.com/" target="_blank" rel="noopener" style="color:var(--accent)">PRO AUDIO WIRE에서 보기</a></div>';
   }
 }
-loadNotices();loadNews();loadFeatured();
+
+/* 메인 배너 자동 반복 슬라이드: 업무센터에서 관리 → banners.json으로 자동 반영(정기 작업이 커밋) */
+const BANNER_JSON_URL = "/banners.json";
+async function loadHeroBanners(){
+  const bg=$("#heroBg"),dots=$("#heroDots"),prev=$("#heroPrev"),next=$("#heroNext");
+  let items=[],interval=5,idx=0,timer=null,hovering=false;
+  try{
+    const r=await fetch(BANNER_JSON_URL+"?_="+Date.now());if(!r.ok)throw 0;
+    const data=await r.json();
+    items=Array.isArray(data.items)?data.items.filter(b=>b&&b.image):[];
+    interval=Math.min(20,Math.max(3,Number(data.interval)||5));
+  }catch(e){return}
+  if(!items.length)return;
+
+  bg.hidden=false;
+  bg.innerHTML=items.map((b,i)=>`<div class="sl${i===0?" on":""}" style="background-image:url('${esc(b.image)}')"></div>`).join("");
+  const slides=[...bg.querySelectorAll(".sl")];
+
+  function show(n){
+    idx=(n+items.length)%items.length;
+    slides.forEach((s,i)=>s.classList.toggle("on",i===idx));
+    if(dots)[...dots.children].forEach((d,i)=>d.classList.toggle("on",i===idx));
+  }
+  function stop(){if(timer){clearInterval(timer);timer=null}}
+  function start(){stop();if(items.length>1&&!hovering)timer=setInterval(()=>show(idx+1),interval*1000)}
+
+  if(items.length>1){
+    dots.hidden=false;
+    dots.innerHTML=items.map((_,i)=>`<button type="button" aria-label="${i+1}번째 배너"></button>`).join("");
+    [...dots.children].forEach((d,i)=>d.addEventListener("click",()=>{show(i);start()}));
+    prev.hidden=false;next.hidden=false;
+    prev.addEventListener("click",()=>{show(idx-1);start()});
+    next.addEventListener("click",()=>{show(idx+1);start()});
+    const hero=$("#hero");
+    hero.addEventListener("mouseenter",()=>{hovering=true;stop()});
+    hero.addEventListener("mouseleave",()=>{hovering=false;start()});
+    let touchX=null;
+    hero.addEventListener("touchstart",e=>{touchX=e.touches[0].clientX},{passive:true});
+    hero.addEventListener("touchend",e=>{
+      if(touchX==null)return;
+      const dx=e.changedTouches[0].clientX-touchX;
+      if(Math.abs(dx)>40){show(idx+(dx<0?1:-1));start()}
+      touchX=null;
+    },{passive:true});
+    show(0);start();
+  }
+}
+loadNotices();loadNews();loadFeatured();loadHeroBanners();
 
 (()=>{const nav=document.querySelector(".nav"),btn=$("#menuBtn");
   const set=o=>{nav.classList.toggle("open",o);btn.setAttribute("aria-expanded",o);btn.setAttribute("aria-label",o?"메뉴 닫기":"메뉴 열기")};
