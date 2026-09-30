@@ -748,6 +748,29 @@ document.querySelectorAll(".copy").forEach(b=>b.addEventListener("click",async()
   setTimeout(()=>b.textContent="복사",1800);
 }));
 
+(()=>{
+  const q = new URLSearchParams(location.search);
+  const from = q.get("from");
+  let item = q.get("item");
+  if (from === "news" && item) {
+    const msg = $("#message");
+    if (!msg.value.trim()) {
+      item = item.substring(0, 120);
+      let nid = q.get("nid");
+      nid = nid ? nid.replace(/[^a-zA-Z0-9-]/g, "").substring(0, 40) : "";
+      const nidPart = nid ? ` (소식 번호: ${nid})` : "";
+      msg.value = `[PRO AUDIO WIRE 소식 문의] ${item} 관련 견적·도입 상담을 희망합니다.${nidPart}`;
+
+      if (location.hash !== "#contact") {
+        setTimeout(() => {
+          const contact = document.getElementById("contact");
+          if (contact) contact.scrollIntoView();
+        }, 100);
+      }
+    }
+  }
+})();
+
 $("#inq").addEventListener("submit",async e=>{
   e.preventDefault();
   const msg=$("#msg");msg.className="msg err";msg.textContent="";
