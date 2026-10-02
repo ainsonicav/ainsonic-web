@@ -69,6 +69,9 @@
       Object.keys(links).forEach(function (id) { var s = document.getElementById(id); if (s) spy.observe(s); });
       var dock = $('#dock'), contact = $('#contact');
       if (dock && contact) new IntersectionObserver(function (es) { dock.classList.toggle('gone', es[0].isIntersecting); }, { threshold: 0.15 }).observe(contact);
+      /* 디자인 전용: 첫 화면(히어로) 위에서는 헤더를 히어로와 같은 어두운 톤으로 이어 붙인다 */
+      var navEl = $('#nav'), heroEl = $('.hero');
+      if (navEl && heroEl) new IntersectionObserver(function (es) { navEl.classList.toggle('on-hero', es[0].isIntersecting); }, { rootMargin: '-68px 0px 0px 0px', threshold: 0 }).observe(heroEl);
     }
   })();
 

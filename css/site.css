@@ -303,3 +303,58 @@ fieldset{border:0;padding:0;margin:0 0 16px}
 /* 한 줄 말줄임이 그리드 칸을 밀어내지 않도록 */
 .two>*,.panel,.list{min-width:0}
 .list a.row,.list summary{min-width:0}
+
+/* =========================================================
+   v3 리뉴얼 (2026-10) — 새 로고 · 브랜드 컬러 통일 · 디자인 정리
+   기능(JS 동작·폼·데이터)은 그대로, 보이는 것만 바꿉니다.
+   ========================================================= */
+:root{--brand-blue:#1B5FAE;--logo-ink:var(--brand-blue);--accent:#0A7473;--accent-strong:#075F5F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--logo-ink:#FFFFFF;--accent:#3CC8C7;--accent-strong:#3CC8C7}}
+:root[data-theme="dark"]{--logo-ink:#FFFFFF;--accent:#3CC8C7;--accent-strong:#3CC8C7}
+
+/* 로고 */
+.brand{color:var(--logo-ink)}
+.brand .logo{display:block;height:30px;width:auto}
+@media (max-width:520px){.brand .logo{height:25px}}
+.foot .brand{color:#fff;min-height:44px}
+.foot .brand .logo{height:28px}
+.foot .tagline{margin-top:10px}
+
+/* 첫 화면: 헤더를 히어로와 이어지는 어두운 톤으로 (스크롤하면 원래 밝은 헤더) */
+.nav{transition:background-color .3s,border-color .3s}
+.nav.on-hero:not(.open){background:rgba(6,16,29,.94);border-bottom-color:var(--hero-line)}
+.nav.on-hero:not(.open) .brand{color:#fff}
+.nav.on-hero:not(.open) .menu a{color:var(--hero-dim)}
+.nav.on-hero:not(.open) .menu a:hover,.nav.on-hero:not(.open) .menu a[aria-current="true"]{color:#fff;background:rgba(255,255,255,.07)}
+.nav.on-hero:not(.open) .tel{color:var(--hero-dim)}
+.nav.on-hero:not(.open) .icon-btn{background:transparent;border-color:var(--hero-line);color:#fff}
+.nav.on-hero:not(.open) .nav-cta{background:var(--teal);color:#04202A}
+
+/* 소식 불러오기 실패/빈 상태: 줄 전체를 쓰고 가운데 정렬 */
+.nb-list>.empty{grid-column:1/-1;flex:1 1 100%}
+.empty{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 10px;padding:26px 20px;background:var(--bg);font-size:15px}
+.empty a{color:var(--accent);font-weight:600}
+
+/* 브랜드: 회색조로 무게를 맞추고, 마우스를 올리면 원래 색 */
+.brands li{background:#fff;height:92px;padding:16px 18px;transition:border-color .2s,box-shadow .2s}
+.brands img{max-height:40px;max-width:74%;filter:grayscale(1) contrast(1.05);opacity:.7;transition:filter .25s,opacity .25s}
+.brands img[src*="hk-audio"],.brands img[src*="martin-audio"]{max-height:56px}
+.brands img[src*="nec"]{max-height:30px}
+.brands img[src*="epson"],.brands img[src*="genelec"],.brands img[src*="allen-heath"]{max-height:32px}
+.brands li:hover{border-color:var(--accent);box-shadow:var(--shadow)}
+.brands li:hover img{filter:none;opacity:1}
+@media (hover:none){.brands img{filter:none;opacity:1}}
+
+/* FAQ + 오른쪽 상담 카드 */
+.faq-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:32px;align-items:start}
+.faq-grid .faq{max-width:none}
+.faq-cta{position:sticky;top:calc(var(--nav-h) + 20px);display:grid;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px;box-shadow:var(--shadow)}
+.faq-cta h3{font-size:21px}
+.faq-cta>p:not(.eyebrow){color:var(--ink-2);font-size:15px;margin-bottom:6px}
+.faq-cta .btn{width:100%}
+@media (max-width:900px){.faq-grid{grid-template-columns:1fr}.faq-cta{position:static}}
+
+/* 신제품 소식 제목: 아이콘 대신 브랜드 점 */
+.nb-head h2{display:inline-flex;align-items:center;gap:10px}
+.nb-head h2::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px var(--accent-soft)}
+.brands img[src*="blackmagic"],.brands img[src*="shure"],.brands img[src*="panasonic"]{max-width:86%;max-height:42px}
