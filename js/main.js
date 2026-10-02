@@ -84,6 +84,39 @@
     });
   });
 
+  /* ---------- 소개 이미지 공유 ---------- */
+  (function () {
+    var btn = $('#shareFlyer'), card = $('#share'), msg = $('#shareMsg');
+    if (!btn || !card) return;
+    var IMG = 'assets/ainsonic-flyer.jpg', SITE = 'https://www.ainsonic.com/';
+    var TITLE = '아인소닉 | 음향·영상·CCTV·네트워크 통합 설계시공';
+    var TEXT = '소리, 영상, 보안, 네트워크를 하나의 시스템으로 설계합니다. 견적·현장실사 010-3599-6733';
+    var file = null;
+    function say(t) { if (!msg) return; msg.textContent = t; clearTimeout(say.t); say.t = setTimeout(function () { msg.textContent = ''; }, 3000); }
+    function save() { var a = document.createElement('a'); a.href = IMG; a.download = '아인소닉-소개.jpg'; document.body.appendChild(a); a.click(); a.remove(); say('소개 이미지를 저장했습니다.'); }
+    // 공유 창은 클릭 직후에만 열 수 있어서, 카드가 보이면 이미지를 미리 받아 둔다
+    function prefetch() {
+      if (file || !window.fetch || !window.File) return;
+      fetch(IMG).then(function (r) { return r.blob(); }).then(function (b) { file = new File([b], 'ainsonic.jpg', { type: 'image/jpeg' }); }).catch(function () {});
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { prefetch(); io.disconnect(); } }, { rootMargin: '400px' });
+      io.observe(card);
+    } else prefetch();
+    btn.addEventListener('click', function () {
+      if (!navigator.share) { save(); return; }
+      var data = (file && navigator.canShare && navigator.canShare({ files: [file] }))
+        ? { files: [file], title: TITLE, text: TEXT + ' ' + SITE }
+        : { title: TITLE, text: TEXT, url: SITE };
+      navigator.share(data).catch(function (e) { if (!e || e.name !== 'AbortError') save(); });
+    });
+    var copy = $('#copySite');
+    if (copy) copy.addEventListener('click', function () {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(SITE).then(function () { say('홈페이지 주소를 복사했습니다.'); }, function () { say('복사하지 못했습니다. 주소: ' + SITE); });
+      else say('주소: ' + SITE);
+    });
+  })();
+
   /* ---------- 공지사항 ---------- */
   (function () {
     var box = $('#noticeList');
