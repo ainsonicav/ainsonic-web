@@ -1,0 +1,5 @@
+# GitHub Pages(Jekyll) 설정: 사이트 운영용 문서는 공개 웹 주소로 내보내지 않습니다.
+# (저장소에는 그대로 남아 있고, www.ainsonic.com/README.md 같은 주소로만 열리지 않게 합니다)
+exclude:
+  - README.md
+  - AGENTS.md

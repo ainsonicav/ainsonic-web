@@ -9,6 +9,9 @@
   var NEWS_JSON = 'https://news.ainsonic.com/news.json';
   var NEWS_HOME = 'https://news.ainsonic.com/';
   var MIN_BANNER_WIDTH = 1000; // 이보다 작은 배너 이미지는 전체화면에서 흐려지므로 건너뛴다
+  // 카카오톡 채널 상담 주소. 비워 두면 카카오톡 버튼은 모두 숨겨집니다.
+  // 채널을 만든 뒤 아래 따옴표 안에 주소만 넣으세요. 예: 'https://pf.kakao.com/_xxxxxx/chat'
+  var KAKAO_URL = '';
 
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
@@ -73,6 +76,14 @@
       var navEl = $('#nav'), heroEl = $('.hero');
       if (navEl && heroEl) new IntersectionObserver(function (es) { navEl.classList.toggle('on-hero', es[0].isIntersecting); }, { rootMargin: '-68px 0px 0px 0px', threshold: 0 }).observe(heroEl);
     }
+  })();
+
+  /* ---------- 카카오톡 상담 버튼: KAKAO_URL이 있을 때만 보이기 ---------- */
+  (function () {
+    if (!/^https:\/\//i.test(KAKAO_URL)) return; // 주소가 없으면 숨김 상태 그대로(죽은 버튼 방지)
+    $$('[data-kakao]').forEach(function (a) { a.setAttribute('href', KAKAO_URL); a.hidden = false; });
+    $$('[data-kakao-wrap]').forEach(function (w) { w.hidden = false; });
+    var dock = $('#dock'); if (dock) dock.classList.add('has-kakao');
   })();
 
   /* ---------- 복사 버튼 ---------- */
@@ -286,12 +297,42 @@
       var digits = d.phone.replace(/\D/g, '');
       var phoneOk = digits.length >= 9 && digits.length <= 11;
       setErr('e-phone', phoneOk ? '' : '연락처를 확인해 주세요. 숫자 9~11자리입니다.', $('#phone')); if (!phoneOk) bad($('#phone'));
+      setErr('e-space', d.space ? '' : '공간 종류를 골라 주세요.', $('#space')); if (!d.space) bad($('#space'));
       setErr('e-types', d.types.length ? '' : '필요한 것을 하나 이상 골라 주세요.'); if (!d.types.length) bad($('#types input'));
       setErr('e-agree', $('#agree').checked ? '' : '개인정보 수집에 동의해 주세요.'); if (!$('#agree').checked) bad($('#agree'));
       return first;
     }
-    form.addEventListener('input', function (e) { var t = e.target; if (t.id === 'org') setErr('e-org', '', t); if (t.id === 'phone') setErr('e-phone', '', t); if (t.name === 'types') setErr('e-types', ''); if (t.id === 'agree') setErr('e-agree', ''); });
+    function onEdit(e) { var t = e.target; if (t.id === 'org') setErr('e-org', '', t); if (t.id === 'phone') setErr('e-phone', '', t); if (t.id === 'space' && t.value) setErr('e-space', '', t); if (t.name === 'types') setErr('e-types', ''); if (t.id === 'agree') setErr('e-agree', ''); }
+    form.addEventListener('input', onEdit);
+    form.addEventListener('change', onEdit);
 
+    // 서버 응답 판정 (예전 접수 스크립트와도 호환)
+    //  - JSON에 ok/result/status가 있으면 그 값으로 판단
+    //  - JSON이 아닌 응답(예전 스크립트)은 정상(2xx)이면 접수된 것으로 본다. 단, Apps Script 오류 화면은 실패.
+    function receiptOk(res) {
+      var j = null;
+      try { j = JSON.parse(res.text); } catch (e) { j = null; }
+      if (j && typeof j === 'object') {
+        if ('ok' in j) return j.ok === true;
+        if ('result' in j) return /^(success|ok)$/i.test(String(j.result));
+        if ('status' in j) return /^(success|ok)$/i.test(String(j.status));
+        return res.ok;
+      }
+      if (!res.ok) return false;
+      return !/<title>\s*(Error|오류)|Script function not found|TypeError:|ReferenceError:/i.test(res.text || '');
+    }
+    // 실패: 입력 내용은 그대로 두고, 전화·이메일 안내와 함께 메일로 바로 보낼 수 있는 링크를 보여준다.
+    function fail(d) {
+      clear(msg); msg.className = 'msg err';
+      var body = ['기관·상호명: ' + d.org, '담당자: ' + d.contact_name, '연락처: ' + d.phone, '이메일: ' + d.email,
+        '공간 종류: ' + d.space, '현장 지역: ' + d.region, '필요한 것: ' + d.types, '', d.message].join('\n');
+      var mail = 'mailto:peter@ainsonic.com?subject=' + encodeURIComponent('[아인소닉 문의] ' + d.org + ' / ' + d.space) + '&body=' + encodeURIComponent(body);
+      msg.appendChild(document.createTextNode('문의가 접수되지 않았습니다. 입력하신 내용은 그대로 있으니 잠시 후 다시 보내 주시거나, '));
+      msg.appendChild(el('a', { href: 'tel:01035996733', text: '010-3599-6733' }));
+      msg.appendChild(document.createTextNode('으로 전화 또는 '));
+      msg.appendChild(el('a', { href: mail, text: 'peter@ainsonic.com' }));
+      msg.appendChild(document.createTextNode('으로 메일 주세요.'));
+    }
     function done(phone) {
       clear(form);
       form.appendChild(el('div', { class: 'done', role: 'status' }, el('b', { text: '문의가 접수되었습니다.' }), '확인 후 ' + phone + '로 직접 연락드리겠습니다. 급한 일은 010-3599-6733으로 전화 주세요.'));
@@ -306,16 +347,21 @@
         space: $('#space').value, region: $('#region').value.trim(), types: types.join(','), message: $('#message').value.trim(),
         website: $('#website').value, submitted_at: new Date().toISOString()
       };
-      var firstBad = validate({ org: data.org, phone: data.phone, types: types });
+      var firstBad = validate({ org: data.org, phone: data.phone, space: data.space, types: types });
       if (firstBad) { firstBad.focus(); return; }
       if (data.website) { done(data.phone); return; } // 스팸 봇: 보낸 척만 한다
       if (!endpoint) { msg.textContent = '지금은 온라인 접수를 준비 중입니다. 010-3599-6733으로 전화 주시거나 peter@ainsonic.com으로 메일 주세요.'; return; }
       sending = true; btn.disabled = true; btn.textContent = '보내는 중…';
       var ctl = ('AbortController' in window) ? new AbortController() : null;
-      var t = setTimeout(function () { if (ctl) ctl.abort(); }, 15000);
-      fetch(endpoint, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data), signal: ctl ? ctl.signal : undefined })
-        .then(function () { done(data.phone); })
-        .catch(function () { msg.textContent = '보내지 못했습니다. 잠시 후 다시 시도하시거나 010-3599-6733으로 전화 주세요.'; })
+      var t = setTimeout(function () { if (ctl) ctl.abort(); }, 20000);
+      // 응답을 읽을 수 있게 보낸다(no-cors 미사용). text/plain 본문이라 사전 요청(preflight) 없이 Apps Script로 바로 간다.
+      fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data), redirect: 'follow', signal: ctl ? ctl.signal : undefined })
+        .then(function (r) { return r.text().then(function (txt) { return { ok: r.ok, text: txt }; }); })
+        .then(function (res) {
+          if (receiptOk(res)) done(data.phone);
+          else fail(data);
+        })
+        .catch(function () { fail(data); })
         .then(function () { clearTimeout(t); sending = false; if (btn.isConnected) { btn.disabled = false; btn.textContent = '문의 보내기'; } });
     });
   })();

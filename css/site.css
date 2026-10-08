@@ -70,8 +70,8 @@ h1,h2,h3{line-height:1.28;letter-spacing:-.02em;text-wrap:balance}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-height:44px}
 .brand img{width:36px;height:36px;border-radius:50%;background:#fff}
 .brand b{font:700 18px/1 var(--word);letter-spacing:.16em}
-.menu{display:flex;gap:4px}
-.menu a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:8px;text-decoration:none;color:var(--ink-2);font-size:15px}
+.menu{display:flex;gap:2px}
+.menu a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;border-radius:8px;text-decoration:none;color:var(--ink-2);font-size:15px;white-space:nowrap}
 .menu a:hover,.menu a[aria-current="true"]{color:var(--ink);background:var(--sunk)}
 .nav-r{display:flex;align-items:center;gap:10px}
 .tel{font:500 14px var(--mono);color:var(--ink-2);text-decoration:none;white-space:nowrap;display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
@@ -80,7 +80,7 @@ h1,h2,h3{line-height:1.28;letter-spacing:-.02em;text-wrap:balance}
 .menu-btn{display:none}
 .menu-btn .x{display:none}
 .nav.open .menu-btn .x{display:block}.nav.open .menu-btn .bars{display:none}
-@media (max-width:1040px){
+@media (max-width:1199px){
   .menu-btn{display:inline-flex}
   .menu{display:none;position:absolute;top:var(--nav-h);left:0;right:0;flex-direction:column;gap:0;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:var(--shadow);padding:6px 0 10px}
   .nav.open .menu{display:flex}
@@ -208,7 +208,7 @@ h1,h2,h3{line-height:1.28;letter-spacing:-.02em;text-wrap:balance}
 .fld input[type=text],.fld input[type=tel],.fld input[type=email],.fld select,.fld textarea{width:100%;min-height:48px;padding:11px 14px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--bg);color:var(--ink);font:400 16px var(--sans)}
 .fld textarea{min-height:120px;resize:vertical}
 .fld input:focus,.fld select:focus,.fld textarea:focus{outline:3px solid color-mix(in srgb,var(--teal) 45%,transparent);border-color:var(--teal)}
-.fld[aria-invalid="true"] input,.fld.bad input,.fld.bad textarea{border-color:var(--err)}
+.fld[aria-invalid="true"] input,.fld.bad input,.fld.bad select,.fld.bad textarea{border-color:var(--err)}
 .err-t{color:var(--err);font-size:13px;margin-top:4px}
 fieldset{border:0;padding:0;margin:0 0 16px}
 .checks{display:flex;flex-wrap:wrap;gap:8px}
@@ -369,3 +369,12 @@ fieldset{border:0;padding:0;margin:0 0 16px}
 .share-btns .btn{min-height:44px;padding:0 14px;font-size:14px}
 .share-msg{font-size:13px;color:var(--accent);margin:8px 0 0;min-height:18px}
 @media (max-width:420px){.share-card{grid-template-columns:72px minmax(0,1fr);gap:14px;padding:14px}}
+
+/* 카카오톡 상담 버튼 — js/main.js의 KAKAO_URL이 채워졌을 때만 보입니다 */
+.btn-kakao{background:#FEE500;color:#191919;border-color:#FEE500}
+.btn-kakao:hover{filter:brightness(.97)}
+.kakao-row{margin:-8px 0 18px}
+@media (max-width:760px){.dock.has-kakao{grid-template-columns:repeat(3,1fr);gap:8px}.dock.has-kakao .btn{padding:0 10px}}
+/* 현장 사진 보내는 방법 안내 (문의 영역) */
+.photo-tip{margin-top:14px;font-size:14px;color:var(--ink-2);line-height:1.6}
+.photo-tip a{color:var(--accent);font-weight:600}

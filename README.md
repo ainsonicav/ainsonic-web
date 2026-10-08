@@ -15,7 +15,8 @@
 - 공지사항: `notices.json`을 주기적으로 fetch (`NOTICE_JSON_URL = "/notices.json"`). 사이트관리센터에서 관리되어 반영되도록 설계된 소스입니다(자동 반영 파이프라인의 실제 가동 여부는 별도 확인 필요).
 - 메인 배너: `banners.json`을 주기적으로 fetch (`BANNER_JSON_URL = "/banners.json"`). 동일하게 사이트관리센터가 갱신 소스입니다.
 - 업계 소식: `https://news.ainsonic.com/rss.xml`, `https://news.ainsonic.com/news.json`을 fetch하여 프로오디오뉴스 소식을 가져옵니다.
-- 문의 폼: `INQUIRY_ENDPOINT`(Google Apps Script, `mode:"no-cors"` POST)로 전송합니다. 엔드포인트 URL은 변경하지 않았습니다.
+- 문의 폼: `index.html` 폼의 `data-endpoint`(Google Apps Script)로 `text/plain` JSON을 POST합니다(2026-10부터 `no-cors`를 쓰지 않고 응답을 읽습니다). 응답이 `{"ok":true}`이거나(새 스크립트) JSON이 아닌 정상 응답이면(예전 스크립트) 접수 완료, 네트워크 오류·`{"ok":false}`면 입력 내용을 남긴 채 전화·이메일 안내를 보여줍니다. 엔드포인트 URL은 변경하지 않았습니다.
+- 카카오톡 상담 버튼: `js/main.js` 맨 위의 `KAKAO_URL`에 채널 주소를 넣으면 첫 화면·FAQ·문의 영역·모바일 하단 바에 버튼이 나타납니다. 비어 있으면 모두 숨겨집니다.
 
 ## 유지한 것
 
