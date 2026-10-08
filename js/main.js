@@ -309,7 +309,7 @@
       var firstBad = validate({ org: data.org, phone: data.phone, types: types });
       if (firstBad) { firstBad.focus(); return; }
       if (data.website) { done(data.phone); return; } // 스팸 봇: 보낸 척만 한다
-      if (!endpoint) { msg.textContent = '지금은 온라인 접수를 준비 중입니다. 010-3599-6733으로 전화 주시거나 ainsonicav@gmail.com으로 메일 주세요.'; return; }
+      if (!endpoint) { msg.textContent = '지금은 온라인 접수를 준비 중입니다. 010-3599-6733으로 전화 주시거나 peter@ainsonic.com으로 메일 주세요.'; return; }
       sending = true; btn.disabled = true; btn.textContent = '보내는 중…';
       var ctl = ('AbortController' in window) ? new AbortController() : null;
       var t = setTimeout(function () { if (ctl) ctl.abort(); }, 15000);
