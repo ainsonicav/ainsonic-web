@@ -326,11 +326,11 @@
       clear(msg); msg.className = 'msg err';
       var body = ['기관·상호명: ' + d.org, '담당자: ' + d.contact_name, '연락처: ' + d.phone, '이메일: ' + d.email,
         '공간 종류: ' + d.space, '현장 지역: ' + d.region, '필요한 것: ' + d.types, '', d.message].join('\n');
-      var mail = 'mailto:peter@ainsonic.com?subject=' + encodeURIComponent('[아인소닉 문의] ' + d.org + ' / ' + d.space) + '&body=' + encodeURIComponent(body);
+      var mail = 'mailto:ainsonicav@gmail.com?subject=' + encodeURIComponent('[아인소닉 문의] ' + d.org + ' / ' + d.space) + '&body=' + encodeURIComponent(body);
       msg.appendChild(document.createTextNode('문의가 접수되지 않았습니다. 입력하신 내용은 그대로 있으니 잠시 후 다시 보내 주시거나, '));
       msg.appendChild(el('a', { href: 'tel:01035996733', text: '010-3599-6733' }));
       msg.appendChild(document.createTextNode('으로 전화 또는 '));
-      msg.appendChild(el('a', { href: mail, text: 'peter@ainsonic.com' }));
+      msg.appendChild(el('a', { href: mail, text: 'ainsonicav@gmail.com' }));
       msg.appendChild(document.createTextNode('으로 메일 주세요.'));
     }
     function done(phone) {
@@ -350,7 +350,7 @@
       var firstBad = validate({ org: data.org, phone: data.phone, space: data.space, types: types });
       if (firstBad) { firstBad.focus(); return; }
       if (data.website) { done(data.phone); return; } // 스팸 봇: 보낸 척만 한다
-      if (!endpoint) { msg.textContent = '지금은 온라인 접수를 준비 중입니다. 010-3599-6733으로 전화 주시거나 peter@ainsonic.com으로 메일 주세요.'; return; }
+      if (!endpoint) { msg.textContent = '지금은 온라인 접수를 준비 중입니다. 010-3599-6733으로 전화 주시거나 ainsonicav@gmail.com으로 메일 주세요.'; return; }
       sending = true; btn.disabled = true; btn.textContent = '보내는 중…';
       var ctl = ('AbortController' in window) ? new AbortController() : null;
       var t = setTimeout(function () { if (ctl) ctl.abort(); }, 20000);
