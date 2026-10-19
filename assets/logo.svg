@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 80" width="540" height="80" role="img" aria-label="AINSONIC Logo">
+  <defs>
+    <linearGradient id="logoWave" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E5FF"/>
+      <stop offset="50%" stop-color="#3CC8C7"/>
+      <stop offset="100%" stop-color="#0E9A9A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left Symbol: Sonic Iris (x: 40, y: 40, r: 34) -->
+  <g transform="translate(10, 6)">
+    <circle cx="34" cy="34" r="32" fill="#08121E" stroke="#1D3453" stroke-width="2"/>
+    <circle cx="34" cy="34" r="26" fill="none" stroke="#23426A" stroke-width="1.5" stroke-dasharray="2 3"/>
+    <circle cx="34" cy="34" r="20" fill="none" stroke="url(#logoWave)" stroke-width="2" opacity="0.6"/>
+    <path d="M 17 34 C 22 20, 26 20, 34 34 C 42 48, 46 48, 51 34" 
+          fill="none" 
+          stroke="url(#logoWave)" 
+          stroke-width="5" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+    <circle cx="17" cy="34" r="2" fill="#00E5FF"/>
+    <circle cx="34" cy="34" r="2.5" fill="#FFFFFF"/>
+    <circle cx="51" cy="34" r="2" fill="#00E5FF"/>
+  </g>
+
+  <!-- Wordmark: AINSONIC -->
+  <text x="88" y="44" 
+        font-family="'Montserrat', 'IBM Plex Sans KR', system-ui, sans-serif" 
+        font-size="30" 
+        font-weight="800" 
+        letter-spacing="0.14em" 
+        fill="currentColor">AINSONIC</text>
+
+  <!-- Engineering Subtitle -->
+  <text x="90" y="62" 
+        font-family="'JetBrains Mono', 'IBM Plex Sans KR', monospace" 
+        font-size="8.5" 
+        font-weight="600" 
+        letter-spacing="0.28em" 
+        fill="#00E5FF" 
+        opacity="0.9">PRO AUDIO &amp; VISION ENGINEERING</text>
+</svg>

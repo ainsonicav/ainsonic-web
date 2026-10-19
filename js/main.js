@@ -365,4 +365,33 @@
         .then(function () { clearTimeout(t); sending = false; if (btn.isConnected) { btn.disabled = false; btn.textContent = '문의 보내기'; } });
     });
   })();
+
+  /* 2대 킬러 섹션 빠른 문의 폼 스마트 연동 */
+  (function () {
+    $$('a[href="#contact"]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var hostSec = btn.closest('section');
+        if (!hostSec) return;
+        var spaceSelect = $('#space');
+        var msgArea = $('#message');
+        if (hostSec.id === 'meeting-590' && spaceSelect) {
+          spaceSelect.value = '사무실·회의실';
+          $$('input[name=types]').forEach(function (chk) {
+            if (['음향', '영상', '회의실'].indexOf(chk.value) >= 0) chk.checked = true;
+          });
+          if (msgArea && !msgArea.value) {
+            msgArea.value = '[스마트 화상회의실 590 패키지] 1일 턴키 시공 견적 문의합니다.';
+          }
+        } else if (hostSec.id === 'church-safeguard' && spaceSelect) {
+          spaceSelect.value = '교회·종교시설';
+          $$('input[name=types]').forEach(function (chk) {
+            if (['음향', '영상'].indexOf(chk.value) >= 0) chk.checked = true;
+          });
+          if (msgArea && !msgArea.value) {
+            msgArea.value = '[교회 방송실 1회 무료 건강검진] 현장 무료 점검 신청합니다.';
+          }
+        }
+      });
+    });
+  })();
 })();
