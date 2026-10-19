@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>스마트 회의실 590 패키지 B2B 제안서 - 아인소닉</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Montserrat:wght@700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #08121E;
+    --navy-card: #0F1E33;
+    --teal: #00E5FF;
+    --teal-dark: #0E9A9A;
+    --amber: #FFB703;
+    --text: #0F172A;
+    --muted: #64748B;
+    --border: #E2E8F0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    background: #F1F5F9;
+    color: var(--text);
+    padding: 30px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .page {
+    width: 100%;
+    max-width: 800px;
+    background: #FFFFFF;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    padding: 48px 54px;
+    position: relative;
+    overflow: hidden;
+  }
+  @media print {
+    body { background: #FFF; padding: 0; }
+    .page { box-shadow: none; border: none; max-width: 100%; padding: 36px 40px; border-radius: 0; }
+    .no-print { display: none !important; }
+  }
+
+  /* Header */
+  .doc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+  .doc-logo img { height: 36px; width: auto; }
+  .doc-meta { text-align: right; font-size: 13px; color: var(--muted); font-family: 'JetBrains Mono', monospace; line-height: 1.5; }
+
+  .badge-b2b {
+    display: inline-block;
+    background: rgba(14,154,154,0.12);
+    border: 1px solid var(--teal-dark);
+    color: var(--teal-dark);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+  }
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+  .subtitle {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 26px;
+  }
+
+  /* Price Showcase Hero */
+  .price-banner {
+    background: linear-gradient(135deg, #08121E 0%, #102A4D 100%);
+    color: #FFF;
+    border-radius: 12px;
+    padding: 24px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+    border: 1px solid #1D3453;
+  }
+  .price-banner .label { font-size: 13px; font-family: 'JetBrains Mono', monospace; color: var(--teal); letter-spacing: 0.08em; }
+  .price-banner h2 { font-size: 20px; font-weight: 700; color: #FFF; margin: 4px 0 2px; }
+  .price-banner p { font-size: 13px; color: #94A3B8; }
+  .price-box { text-align: right; }
+  .price-num { font-size: 38px; font-weight: 800; color: var(--amber); font-family: 'Montserrat', sans-serif; line-height: 1.1; }
+  .price-tax { font-size: 12px; color: #CBD5E1; }
+
+  /* 4 Hardware Components */
+  .sec-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sec-title::before { content: ""; width: 4px; height: 18px; background: var(--teal-dark); border-radius: 2px; }
+
+  .parts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 26px;
+  }
+  .part-item {
+    background: #F8FAFC;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .part-item .badge { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--teal-dark); margin-bottom: 4px; }
+  .part-item h3 { font-size: 14.5px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .part-item p { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+  /* Comparison Table */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 26px;
+  }
+  .comp-table th { background: #08121E; color: #FFF; padding: 10px 14px; text-align: left; font-weight: 600; }
+  .comp-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: #334155; }
+  .comp-table tr.highlight td { background: #F0FDF4; font-weight: 600; color: #166534; }
+
+  /* 1-Day Process */
+  .process-bar {
+    background: #F8FAFC;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    margin-bottom: 26px;
+  }
+  .p-step { text-align: center; }
+  .p-step b { display: block; font-size: 13px; color: var(--navy); margin-bottom: 2px; }
+  .p-step span { color: var(--muted); }
+
+  /* CTA */
+  .cta-row {
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
+    border-radius: 8px;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cta-row b { font-size: 15.5px; color: #166534; }
+  .cta-row p { font-size: 13px; color: #15803D; margin-top: 2px; }
+  .cta-btn { background: #166534; color: #FFF; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14.5px; white-space: nowrap; }
+
+  .doc-foot {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .print-controls { margin-bottom: 18px; }
+  .btn-print { background: #08121E; color: #FFF; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="print-controls no-print">
+  <button class="btn-print" onclick="window.print()">🖨️ A4 B2B 제안서 인쇄 / PDF 저장</button>
+</div>
+
+<div class="page">
+  <header class="doc-header">
+    <div class="doc-logo">
+      <img src="assets/logo.svg" alt="아인소닉 AINSONIC">
+    </div>
+    <div class="doc-meta">
+      B2B 제안서: AIN-2026-MR590<br>
+      대상: 반월·시화 스마트산단 및 지식산업센터 기업<br>
+      시공 주관: 아인소닉 (삼아사운드 공식 대리점)
+    </div>
+  </header>
+
+  <div class="badge-b2b">8~12인 중소형 회의실 특화 • 1일 완성 턴키 패키지</div>
+  <h1>스마트 화상회의실 590 패키지 제안서</h1>
+  <p class="subtitle">
+    불투명한 맞춤 견적과 일주일간의 회의실 폐쇄 공사는 이제 그만두셔도 됩니다.<br>
+    <strong>장비 납품 + 천장·벽체 매립 포설 + DSP 음향 튜닝</strong>까지 단 하루 만에 끝내는 표준 정가제 솔루션입니다.
+  </p>
+
+  <div class="price-banner">
+    <div>
+      <span class="label">ALL-IN-ONE STANDARDIZED PRICE</span>
+      <h2>스마트 회의실 590 풀패키지</h2>
+      <p>4K 카메라 + 천장 빔포밍 마이크 + 스피커 + 케이블 매립 + 1년 무상 A/S</p>
+    </div>
+    <div class="price-box">
+      <div class="price-num">590만 원</div>
+      <div class="price-tax">(VAT 별도 / 추가 공임 없음)</div>
+    </div>
+  </div>
+
+  <div class="sec-title">패키지 기본 포함 4대 핵심 하드웨어 구성</div>
+  <div class="parts-grid">
+    <div class="part-item">
+      <div class="badge">01 / 4K PTZ CAMERA</div>
+      <h3>4K AI 인물 자동추적 카메라</h3>
+      <p>120° 초광각으로 회의 참석자 전원을 사각지대 없이 담고, 발언자를 AI가 자동으로 줌인·프레이밍합니다.</p>
+    </div>
+    <div class="part-item">
+      <div class="badge">02 / CEILING BEAMFORMING</div>
+      <h3>360° 천장 빔포밍 마이크 어레이</h3>
+      <p>책상 위 지저분한 마이크선을 없애고 천장에서 8m 반경 음성을 에코와 잡음 없이 깨끗하게 수음합니다.</p>
+    </div>
+    <div class="part-item">
+      <div class="badge">03 / HI-FI SPEAKERS</div>
+      <h3>음성 명료도 특화 파워드 스피커</h3>
+      <p>웅웅거리는 회의실 벽면 울림을 잡고, 상대방의 작은 발언도 귀에 꽂히도록 음성 대역을 정밀 튜닝합니다.</p>
+    </div>
+    <div class="part-item">
+      <div class="badge">04 / FLUSH IN-WALL PANEL</div>
+      <h3>원터치 HDMI &amp; Type-C 매립 패널</h3>
+      <p>케이블 하나만 꽂으면 Zoom/Teams 화면 공유와 화상회의가 즉시 시작되며, 노출 배선이 전혀 없습니다.</p>
+    </div>
+  </div>
+
+  <div class="sec-title">타사 일반 시공 vs 아인소닉 590 패키지 비교</div>
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>비교 항목</th>
+        <th>타사 일반 시공사</th>
+        <th>아인소닉 590 패키지</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>견적 체계</td>
+        <td>항목별 불투명한 맞춤 견적 (800~1,200만 원)</td>
+        <td><strong>590만 원 투명 정가제 (추가비용 제로)</strong></td>
+      </tr>
+      <tr>
+        <td>공사 기간</td>
+        <td>3~7일 소요 (회의실 업무 중단)</td>
+        <td><strong>단 1일 완성 (당일 18:00 즉시 회의 개시)</strong></td>
+      </tr>
+      <tr>
+        <td>배선 처리</td>
+        <td>바닥/벽체 몰드(쫄대) 노출로 지저분함</td>
+        <td><strong>천장 개구 및 벽체 100% 매립 마감</strong></td>
+      </tr>
+      <tr class="highlight">
+        <td>사후 보증</td>
+        <td>하자 발생 시 제조사-시공사 책임 회피</td>
+        <td><strong>삼아사운드 공식 대리점 1년 무상 A/S 책임제</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sec-title">1일 완성 타임테이블 (업무 공백 최소화)</div>
+  <div class="process-bar">
+    <div class="p-step"><b>09:00 자재 입고</b><span>천장 배선 포설</span></div>
+    <div class="p-step"><b>13:00 장비 안착</b><span>카메라/마이크 마운트</span></div>
+    <div class="p-step"><b>16:00 DSP 튜닝</b><span>에코/사운드 캘리브레이션</span></div>
+    <div class="p-step"><b>18:00 시공 완료</b><span>조작 교육 후 즉시 사용</span></div>
+  </div>
+
+  <div class="cta-row">
+    <div>
+      <b>우리 회사 회의실 1일 시공 가능 여부 조회</b>
+      <p>회의실 가로·세로 규격과 현장 사진만 문자로 보내주셔도 당일 사전 검토해 드립니다.</p>
+    </div>
+    <a class="cta-btn" href="tel:01035996733">📞 010-3599-6733 문의</a>
+  </div>
+
+  <footer class="doc-foot">
+    <div>아인소닉 | 경기 안산시 상록구 예술광장1로 115, 상가동 106호 | 대표 Peter (박인호)</div>
+    <div>홈페이지: www.ainsonic.com/ | 이메일: ainsonicav@gmail.com</div>
+  </footer>
+</div>
+
+</body>
+</html>

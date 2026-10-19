@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>교회 방송실 1회 무료 안전·음향 정밀검진 공문 - 아인소닉</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Montserrat:wght@700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #08121E;
+    --navy-card: #0F1E33;
+    --teal: #00E5FF;
+    --teal-dark: #0E9A9A;
+    --amber: #FFB703;
+    --text: #0F172A;
+    --muted: #64748B;
+    --border: #E2E8F0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    background: #F1F5F9;
+    color: var(--text);
+    padding: 30px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .page {
+    width: 100%;
+    max-width: 800px;
+    background: #FFFFFF;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    padding: 48px 54px;
+    position: relative;
+    overflow: hidden;
+  }
+  @media print {
+    body { background: #FFF; padding: 0; }
+    .page { box-shadow: none; border: none; max-width: 100%; padding: 36px 40px; border-radius: 0; }
+    .no-print { display: none !important; }
+  }
+
+  /* Header */
+  .doc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+  }
+  .doc-logo img { height: 36px; width: auto; }
+  .doc-meta { text-align: right; font-size: 13px; color: var(--muted); font-family: 'JetBrains Mono', monospace; line-height: 1.5; }
+
+  /* Title */
+  .badge-official {
+    display: inline-block;
+    background: #FFF7ED;
+    border: 1px solid #FDBA74;
+    color: #C2410C;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.35;
+    margin-bottom: 12px;
+  }
+  .subtitle {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  /* Key Problems Callout */
+  .warning-box {
+    background: #FEF2F2;
+    border-left: 4px solid #EF4444;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+  }
+  .warning-box b { color: #991B1B; font-size: 15px; display: block; margin-bottom: 6px; }
+  .warning-box p { color: #7F1D1D; font-size: 13.5px; line-height: 1.6; }
+
+  /* 4-Point Inspection Grid */
+  .sec-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sec-title::before { content: ""; width: 4px; height: 18px; background: var(--teal-dark); border-radius: 2px; }
+
+  .check-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 30px;
+  }
+  .check-item {
+    background: #F8FAFC;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .check-item .no { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: var(--teal-dark); margin-bottom: 4px; }
+  .check-item h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .check-item p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* Trust Banner */
+  .trust-banner {
+    background: #08121E;
+    color: #FFF;
+    border-radius: 10px;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+  .trust-banner h4 { font-size: 16px; font-weight: 700; color: #FFF; margin-bottom: 4px; }
+  .trust-banner p { font-size: 13px; color: #94A3B8; }
+  .trust-badge { background: rgba(0,229,255,0.15); border: 1px solid var(--teal); color: var(--teal); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; white-space: nowrap; }
+
+  /* Application & Contact */
+  .apply-box {
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
+    border-radius: 8px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 20px;
+  }
+  .apply-box b { font-size: 16px; color: #166534; display: block; margin-bottom: 4px; }
+  .apply-box p { font-size: 13.5px; color: #15803D; }
+  .apply-btn { background: #166534; color: #FFF; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 15px; white-space: nowrap; }
+
+  /* Footer */
+  .doc-foot {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .print-controls {
+    margin-bottom: 18px;
+    display: flex;
+    gap: 10px;
+  }
+  .btn-print {
+    background: #08121E;
+    color: #FFF;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<div class="print-controls no-print">
+  <button class="btn-print" onclick="window.print()">🖨️ A4 공문 인쇄 / PDF 저장</button>
+</div>
+
+<div class="page">
+  <header class="doc-header">
+    <div class="doc-logo">
+      <img src="assets/logo.svg" alt="아인소닉 AINSONIC">
+    </div>
+    <div class="doc-meta">
+      문서번호: AIN-2026-CH01<br>
+      시행일자: 2026. 10. 20<br>
+      수신: 담임목사님 및 방송/미디어 담당 교역자 귀하
+    </div>
+  </header>
+
+  <div class="badge-official">2026 안산·경기 서남부 관내 교회 특별 지원 사업</div>
+  <h1>교회 방송실 음향·영상·배선 안전<br>1회 무료 정밀 건강검진 안내</h1>
+  <p class="subtitle">
+    예배의 가장 거룩한 순간에 발생하는 <strong>마이크 하울링 피드백, 앰프 과열, 유튜브 실시간 송출 오류</strong>는 성도들의 예배 몰입을 방해하는 가장 큰 불안 요소입니다. 아인소닉이 관내 교회의 평안한 예배를 위해 <strong>전문 엔지니어 1회 무료 현장 정밀 진단</strong>을 지원합니다.
+  </p>
+
+  <div class="warning-box">
+    <b>⚠️ 최근 교회 방송실 주요 사고 유형 (사전 예방 필수)</b>
+    <p>
+      1) 노후 콘센트 및 앰프 랙 먼지 누적으로 인한 <strong>스파크 화재 위험</strong><br>
+      2) 무선마이크 주파수 혼선 및 이퀄라이저 왜곡으로 인한 <strong>찬양/설교 하울링</strong><br>
+      3) OBS 송출 PC와 디지털 믹서 간 신호 불일치로 인한 <strong>유튜브 오디오 딜레이/먹통</strong>
+    </p>
+  </div>
+
+  <div class="sec-title">4대 정밀 무료 점검 항목 (방문 소요: 약 30~40분)</div>
+  <div class="check-grid">
+    <div class="check-item">
+      <div class="no">CHECK 01 / ACOUSTICS</div>
+      <h3>마이크 하울링 &amp; 룸 음향 측정</h3>
+      <p>강대상 마이크 주파수 반응 및 본당 잔향을 측정하여 하울링 피크 포인트를 분석합니다.</p>
+    </div>
+    <div class="check-item">
+      <div class="no">CHECK 02 / HARDWARE SAFETY</div>
+      <h3>파워드 앰프 발열 &amp; 전기 배선</h3>
+      <p>앰프 랙 발열 상태, 접지 상태, 전원 배선의 과부하 및 먼지 퇴적 상태를 점검합니다.</p>
+    </div>
+    <div class="check-item">
+      <div class="no">CHECK 03 / BROADCAST &amp; VIDEO</div>
+      <h3>유튜브 라이브 스트리밍 안정성</h3>
+      <p>송출 PC 사양, OBS 오디오 게인 스트럭처, 카메라 영상 화질 및 네트워크 핑(Latency)을 측정합니다.</p>
+    </div>
+    <div class="check-item">
+      <div class="no">CHECK 04 / REPORT</div>
+      <h3>현장 종합 진단서 무료 발행</h3>
+      <p>수리 강요 없이, 현재 장비 상태와 즉시 개선 가능한 조치법이 담긴 리포트를 발급합니다.</p>
+    </div>
+  </div>
+
+  <div class="trust-banner">
+    <div>
+      <h4>삼아사운드(Shure, Genelec, Allen &amp; Heath) 공식 대리점</h4>
+      <p>20년 현장 엔지니어링 경력의 아인소닉 전문 엔지니어가 직접 방문합니다.</p>
+    </div>
+    <div class="trust-badge">정품 보증 &amp; 공식 엔지니어</div>
+  </div>
+
+  <div class="apply-box">
+    <div>
+      <b>선착순 10개 교회 한정 (비용 일체 없음)</b>
+      <p>전화 또는 문자로 "교회명 / 연락처 / 위치"만 남겨주시면 실사 일정을 조율해 드립니다.</p>
+    </div>
+    <a class="apply-btn" href="tel:01035996733">📞 010-3599-6733 신청</a>
+  </div>
+
+  <footer class="doc-foot">
+    <div>아인소닉 | 경기 안산시 상록구 예술광장1로 115, 상가동 106호 | 대표 Peter (박인호)</div>
+    <div>홈페이지: www.ainsonic.com | 이메일: ainsonicav@gmail.com</div>
+  </footer>
+</div>
+
+</body>
+</html>
