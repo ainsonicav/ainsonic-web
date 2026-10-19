@@ -78,6 +78,64 @@
     }
   })();
 
+  /* ---------- 메인 배너 자동 슬라이드 & 움직이는 배경 ---------- */
+  (function () {
+    var bg = $('#heroBg'), dots = $('#heroDots'), prev = $('#heroPrev'), next = $('#heroNext');
+    if (!bg) return;
+    fetchJSON(BANNER_JSON).then(function (data) {
+      var items = (Array.isArray(data.items) ? data.items : []).filter(function (b) { return b && b.image; });
+      if (!items.length) return;
+      var interval = Math.min(20, Math.max(3, Number(data.interval) || 6));
+      var idx = 0, timer = null, hovering = false;
+
+      clear(bg);
+      items.forEach(function (b, i) {
+        var s = el('div', {
+          class: 'sl' + (i === 0 ? ' on' : ''),
+          style: "background-image:url('" + b.image + "')"
+        });
+        bg.appendChild(s);
+      });
+      var slides = $$('.sl', bg);
+
+      function show(n) {
+        idx = (n + items.length) % items.length;
+        slides.forEach(function (s, i) { s.classList.toggle('on', i === idx); });
+        if (dots) $$('button', dots).forEach(function (d, i) { d.classList.toggle('on', i === idx); });
+      }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      function start() { stop(); if (items.length > 1 && !hovering) timer = setInterval(function () { show(idx + 1); }, interval * 1000); }
+
+      if (items.length > 1) {
+        if (dots) {
+          dots.hidden = false;
+          clear(dots);
+          items.forEach(function (_, i) {
+            var btn = el('button', { type: 'button', 'aria-label': (i + 1) + '번째 배너', class: i === 0 ? 'on' : '' });
+            btn.addEventListener('click', function () { show(i); start(); });
+            dots.appendChild(btn);
+          });
+        }
+        if (prev) { prev.hidden = false; prev.addEventListener('click', function () { show(idx - 1); start(); }); }
+        if (next) { next.hidden = false; next.addEventListener('click', function () { show(idx + 1); start(); }); }
+        var hero = $('.hero');
+        if (hero) {
+          hero.addEventListener('mouseenter', function () { hovering = true; stop(); });
+          hero.addEventListener('mouseleave', function () { hovering = false; start(); });
+          var touchX = null;
+          hero.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+          hero.addEventListener('touchend', function (e) {
+            if (touchX == null) return;
+            var dx = e.changedTouches[0].clientX - touchX;
+            if (Math.abs(dx) > 40) { show(idx + (dx < 0 ? 1 : -1)); start(); }
+            touchX = null;
+          }, { passive: true });
+        }
+        start();
+      }
+    }).catch(function () {});
+  })();
+
   /* ---------- 카카오톡 상담 버튼: KAKAO_URL이 있을 때만 보이기 ---------- */
   (function () {
     if (!/^https:\/\//i.test(KAKAO_URL)) return; // 주소가 없으면 숨김 상태 그대로(죽은 버튼 방지)
