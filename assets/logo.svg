@@ -29,7 +29,7 @@
         font-size="30" 
         font-weight="800" 
         letter-spacing="0.14em" 
-        fill="currentColor">AINSONIC</text>
+        fill="#FFFFFF">AINSONIC</text>
 
   <!-- Engineering Subtitle -->
   <text x="90" y="62" 
@@ -38,5 +38,5 @@
         font-weight="600" 
         letter-spacing="0.28em" 
         fill="#00E5FF" 
-        opacity="0.9">PRO AUDIO &amp; VISION ENGINEERING</text>
+        opacity="0.95">PRO AUDIO &amp; VISION ENGINEERING</text>
 </svg>
