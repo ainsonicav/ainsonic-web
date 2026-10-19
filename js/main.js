@@ -221,8 +221,17 @@
   /* ---------- 공지사항 ---------- */
   (function () {
     var box = $('#noticeList');
-    fetchJSON(NOTICE_JSON).then(function (data) {
-      var items = (Array.isArray(data) ? data : []).slice(0, 5);
+    if (!box) return;
+
+    var FALLBACK_NOTICES = [
+      { date: '2026-10-19', title: '스마트 회의실 590 패키지 및 교회 세이프가드 서비스 개시', content: '8~12인 규모 스마트 화상회의실 1일 완성 590 패키지와 교회 방송실 무중단 운영을 위한 월 25만 원 세이프가드 정기 케어 서비스를 시작합니다. 상세 견적 및 실사 신청은 상단 문의 양식을 이용해 주세요.', pinned: true },
+      { date: '2026-09-27', title: '아인소닉 홈페이지를 새로 열었습니다', content: '음향·영상·CCTV·네트워크·통합제어 설계 시공 문의를 홈페이지에서 바로 남기실 수 있습니다. 급한 문의는 010-3599-6733으로 전화 주세요.', pinned: true },
+      { date: '2026-09-27', title: '업계 소식 코너를 열었습니다', content: '프로오디오 업계 소식 큐레이션 서비스 PRO AUDIO WIRE(news.ainsonic.com)의 최신 소식을 홈페이지에서 바로 보실 수 있습니다. 주요 브랜드의 신제품, 펌웨어 업데이트, 행사 소식을 한글 요약으로 전해드립니다.', pinned: true },
+      { date: '2026-09-27', title: '온라인 견적·현장실사 신청을 시작합니다', content: '홈페이지 하단 문의 양식으로 견적과 현장실사를 신청하실 수 있습니다. 공간 종류와 필요한 분야를 선택해 남겨주시면 확인 후 직접 연락드립니다.', pinned: false },
+      { date: '2026-09-27', title: '시공 고객 정기 점검 안내 서비스', content: '아인소닉에서 시공하신 고객께는 시공 완료 후 6개월, 1년, 2년째에 점검 시기를 안내해 드립니다. 음향 장비 상태, CCTV 녹화 저장장치 상태 등을 확인해 오래 안정적으로 쓰실 수 있도록 돕겠습니다.', pinned: false }
+    ];
+
+    function render(items) {
       clear(box);
       if (!items.length) { box.appendChild(emptyBox('등록된 공지사항이 없습니다.')); return; }
       items.forEach(function (n) {
@@ -234,28 +243,55 @@
         if (n.content) d.appendChild(el('div', { class: 'body', text: String(n.content) }));
         box.appendChild(d);
       });
-    }).catch(function () { clear(box); box.appendChild(emptyBox('공지사항을 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.')); });
+    }
+
+    render(FALLBACK_NOTICES);
+
+    fetchJSON(NOTICE_JSON).then(function (data) {
+      var items = (Array.isArray(data) ? data : []).slice(0, 5);
+      if (items.length) render(items);
+    }).catch(function () {});
   })();
 
   /* ---------- 업계 소식(RSS) ---------- */
   (function () {
     var box = $('#newsList');
+    if (!box) return;
+
+    var FALLBACK_NEWS = [
+      { cat: '행사', title: 'Sennheiser - Spectera', date: '2026.10.17', link: NEWS_HOME },
+      { cat: '신제품', title: 'Extron - FOX3 302 Series', date: '2026.10.17', link: NEWS_HOME },
+      { cat: '신제품', title: 'Roland - TD-07DMK2, TD-07KV2', date: '2026.10.17', link: NEWS_HOME },
+      { cat: '신제품', title: 'Articulign - GridVista', date: '2026.10.16', link: NEWS_HOME },
+      { cat: '신제품', title: 'IK Multimedia - ARC Studio+', date: '2026.10.16', link: NEWS_HOME }
+    ];
+
+    function renderNews(items) {
+      clear(box);
+      items.forEach(function (it) {
+        var a = el('a', { class: 'row', href: safeUrl(it.link, NEWS_HOME), target: '_blank', rel: 'noopener' },
+          el('span', { class: 't' }, (it.cat ? el('span', { class: 'pin', text: it.cat }) : null), it.cat ? ' ' : null, it.title),
+          el('span', { class: 'd', text: it.date }));
+        box.appendChild(a);
+      });
+    }
+
+    renderNews(FALLBACK_NEWS);
+
     fetch(NEWS_RSS).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); }).then(function (txt) {
       var x = new DOMParser().parseFromString(txt, 'text/xml');
       var all = $$('item', x).slice(0, 5);
-      if (!all.length) throw new Error('empty');
-      clear(box);
+      if (!all.length) return;
+      var parsed = [];
       all.forEach(function (it) {
         var g = function (t) { var n = it.querySelector(t); return n ? n.textContent.trim() : ''; };
         var cat = g('category'), title = g('title');
         if (cat && title.indexOf('[' + cat + ']') === 0) title = title.slice(cat.length + 2).trim();
         var d = new Date(g('pubDate'));
-        var a = el('a', { class: 'row', href: safeUrl(g('link'), NEWS_HOME), target: '_blank', rel: 'noopener' },
-          el('span', { class: 't' }, (cat ? el('span', { class: 'pin', text: cat }) : null), cat ? ' ' : null, title),
-          el('span', { class: 'd', text: isNaN(d) ? '' : ymd(d) }));
-        box.appendChild(a);
+        parsed.push({ cat: cat, title: title, date: isNaN(d) ? '' : ymd(d), link: g('link') });
       });
-    }).catch(function () { clear(box); box.appendChild(emptyBox('업계 소식을 불러오지 못했습니다.', 'PRO AUDIO WIRE에서 보기', NEWS_HOME)); });
+      if (parsed.length) renderNews(parsed);
+    }).catch(function () {});
   })();
 
   /* ---------- 주요 신제품 6선: news.ainsonic.com과 같은 날짜 시드 추첨 ---------- */

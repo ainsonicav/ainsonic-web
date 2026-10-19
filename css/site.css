@@ -227,18 +227,46 @@ h1,h2,h3{line-height:1.28;letter-spacing:-.02em;text-wrap:balance}
 @media (max-width:760px){.brands{grid-template-columns:repeat(2,1fr)}}
 
 /* 공지·뉴스 */
-.two{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
 @media (max-width:900px){.two{grid-template-columns:1fr}}
-.panel h2{font-size:20px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:baseline}
-.panel h2 a{min-height:44px;display:inline-flex;align-items:center;font-size:14px;font-weight:500;color:var(--accent)}
+.panel{display:flex;flex-direction:column}
+.panel h2{
+  font-size:20px;
+  min-height:44px;
+  margin:0 0 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-sizing:border-box;
+}
+.panel h2 a{
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  font-size:14px;
+  font-weight:500;
+  color:var(--accent);
+}
 .list{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
 .list>*+*{border-top:1px solid var(--line)}
-.list details summary,.list a.row{display:flex;justify-content:space-between;gap:16px;padding:16px 20px;min-height:56px;cursor:pointer;text-decoration:none;list-style:none;align-items:center}
+.list details summary,.list a.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  padding:0 20px;
+  height:58px;
+  min-height:58px;
+  box-sizing:border-box;
+  cursor:pointer;
+  text-decoration:none;
+  list-style:none;
+}
 .list summary::-webkit-details-marker{display:none}
-.list .t{font-weight:500}
-.list .d{font:400 12px var(--mono);color:var(--ink-3);white-space:nowrap}
-.list .body{padding:0 20px 18px;color:var(--ink-2);font-size:15px}
-.pin{font:600 12px var(--sans);color:var(--accent-strong);background:var(--accent-soft);padding:2px 8px;border-radius:999px;margin-right:6px}
+.list .t{font-weight:500;display:flex;align-items:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.list .d{font:400 12px var(--mono);color:var(--ink-3);white-space:nowrap;margin-left:12px;flex-shrink:0}
+.list .body{padding:14px 20px 18px;color:var(--ink-2);font-size:15px;line-height:1.6;border-top:1px dashed var(--line);background:var(--sunk)}
+.pin{display:inline-flex;align-items:center;justify-content:center;height:22px;padding:0 8px;font:600 11px var(--sans);color:var(--accent-strong);background:var(--accent-soft);border-radius:999px;margin-right:8px;flex-shrink:0;vertical-align:middle}
 .list a.row:hover,.list summary:hover{background:var(--sunk)}
 
 /* FAQ */
