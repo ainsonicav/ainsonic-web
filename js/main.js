@@ -82,11 +82,19 @@
   (function () {
     var bg = $('#heroBg'), dots = $('#heroDots'), prev = $('#heroPrev'), next = $('#heroNext');
     if (!bg) return;
-    fetchJSON(BANNER_JSON).then(function (data) {
-      var items = (Array.isArray(data.items) ? data.items : []).filter(function (b) { return b && b.image; });
-      if (!items.length) return;
-      var interval = Math.min(20, Math.max(3, Number(data.interval) || 6));
-      var idx = 0, timer = null, hovering = false;
+
+    var DEFAULT_ITEMS = [
+      { image: 'assets/banners/kkq2yasao6ypw6z102gd.jpg' },
+      { image: 'assets/banners/gtnhvms2bttka4rouwzd.jpg' },
+      { image: 'assets/banners/9g07g8u229f2t700mshh.jpg' }
+    ];
+
+    var timer = null, hovering = false, idx = 0;
+
+    function setupSlider(items, interval) {
+      if (timer) { clearInterval(timer); timer = null; }
+      var count = items.length;
+      if (count === 0) return;
 
       clear(bg);
       items.forEach(function (b, i) {
@@ -99,14 +107,20 @@
       var slides = $$('.sl', bg);
 
       function show(n) {
-        idx = (n + items.length) % items.length;
+        idx = (n + count) % count;
         slides.forEach(function (s, i) { s.classList.toggle('on', i === idx); });
         if (dots) $$('button', dots).forEach(function (d, i) { d.classList.toggle('on', i === idx); });
       }
-      function stop() { if (timer) { clearInterval(timer); timer = null; } }
-      function start() { stop(); if (items.length > 1 && !hovering) timer = setInterval(function () { show(idx + 1); }, interval * 1000); }
 
-      if (items.length > 1) {
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      function start() {
+        stop();
+        if (count > 1 && !hovering) {
+          timer = setInterval(function () { show(idx + 1); }, interval * 1000);
+        }
+      }
+
+      if (count > 1) {
         if (dots) {
           dots.hidden = false;
           clear(dots);
@@ -116,22 +130,40 @@
             dots.appendChild(btn);
           });
         }
-        if (prev) { prev.hidden = false; prev.addEventListener('click', function () { show(idx - 1); start(); }); }
-        if (next) { next.hidden = false; next.addEventListener('click', function () { show(idx + 1); start(); }); }
+        if (prev) {
+          prev.hidden = false;
+          prev.onclick = function () { show(idx - 1); start(); };
+        }
+        if (next) {
+          next.hidden = false;
+          next.onclick = function () { show(idx + 1); start(); };
+        }
         var hero = $('.hero');
         if (hero) {
-          hero.addEventListener('mouseenter', function () { hovering = true; stop(); });
-          hero.addEventListener('mouseleave', function () { hovering = false; start(); });
+          hero.onmouseenter = function () { hovering = true; stop(); };
+          hero.onmouseleave = function () { hovering = false; start(); };
           var touchX = null;
-          hero.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
-          hero.addEventListener('touchend', function (e) {
+          hero.ontouchstart = function (e) { touchX = e.touches[0].clientX; };
+          hero.ontouchend = function (e) {
             if (touchX == null) return;
             var dx = e.changedTouches[0].clientX - touchX;
             if (Math.abs(dx) > 40) { show(idx + (dx < 0 ? 1 : -1)); start(); }
             touchX = null;
-          }, { passive: true });
+          };
         }
         start();
+      }
+    }
+
+    // 1) 기본 배너로 즉시 시작 (지연 및 fetch 실패 방지)
+    setupSlider(DEFAULT_ITEMS, 6);
+
+    // 2) banners.json 비동기 fetch 시도 (서버 환경에서 최신 데이터가 있으면 반영)
+    fetchJSON(BANNER_JSON).then(function (data) {
+      var items = (Array.isArray(data.items) ? data.items : []).filter(function (b) { return b && b.image; });
+      if (items.length > 0) {
+        var interval = Math.min(20, Math.max(3, Number(data.interval) || 6));
+        setupSlider(items, interval);
       }
     }).catch(function () {});
   })();

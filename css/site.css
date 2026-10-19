@@ -90,46 +90,73 @@ h1,h2,h3{line-height:1.28;letter-spacing:-.02em;text-wrap:balance}
 @media (max-width:520px){.tel{display:none}.nav-cta{display:none}}
 
 /* 히어로 */
-.hero{position:relative;overflow:hidden;background:var(--hero);color:var(--hero-ink);padding:72px 0 88px;isolation:isolate}
-.hero-bg{position:absolute;inset:0;z-index:-2;overflow:hidden}
+.hero{position:relative;overflow:hidden;background:#06101D;color:var(--hero-ink);padding:72px 0 88px}
+.hero-bg{position:absolute;inset:0;z-index:1;overflow:hidden}
 .hero-bg .sl{
   position:absolute;
-  inset:-30px;
+  inset:-40px;
   background-size:cover;
   background-position:center;
   opacity:0;
+  filter:blur(1px) brightness(0.95);
   transform:scale(1.05);
-  filter:blur(2px);
-  transition:opacity 1.8s ease-in-out, filter 1.8s ease-in-out;
-  animation:heroMovingBlur 24s infinite alternate ease-in-out;
+  transition:opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change:transform, filter, opacity;
 }
 .hero-bg .sl.on{
-  opacity:0.85;
-  filter:blur(0.8px);
+  opacity:1;
+  animation:heroKenBurnsBlur 24s infinite alternate ease-in-out;
 }
-@keyframes heroMovingBlur{
+@keyframes heroKenBurnsBlur{
   0%{transform:scale(1.04) translate(0, 0); filter:blur(0.5px);}
-  33%{transform:scale(1.10) translate(-18px, -10px); filter:blur(2px);}
-  66%{transform:scale(1.14) translate(15px, -12px); filter:blur(1px);}
-  100%{transform:scale(1.08) translate(5px, 8px); filter:blur(1.5px);}
+  33%{transform:scale(1.10) translate(-16px, -10px); filter:blur(2px);}
+  66%{transform:scale(1.14) translate(14px, -12px); filter:blur(1px);}
+  100%{transform:scale(1.08) translate(5px, 8px); filter:blur(1.8px);}
 }
+
+/* 몽환적인 앰비언트 블러 글로우 (빛 번짐 유영) */
+.hero-glow{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;mix-blend-mode:screen}
+.hero-glow .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.45;will-change:transform}
+.hero-glow .orb-1{top:-15%;left:25%;width:500px;height:500px;background:radial-gradient(circle,#11ADAC 0%,rgba(17,173,172,0) 70%);animation:glowFloat1 20s infinite alternate ease-in-out}
+.hero-glow .orb-2{bottom:-20%;right:10%;width:620px;height:620px;background:radial-gradient(circle,#00E5FF 0%,rgba(0,229,255,0) 70%);animation:glowFloat2 26s infinite alternate ease-in-out}
+.hero-glow .orb-3{top:30%;right:35%;width:420px;height:420px;background:radial-gradient(circle,#102A4D 0%,rgba(16,42,77,0) 70%);opacity:0.6;animation:glowFloat3 18s infinite alternate ease-in-out}
+
+@keyframes glowFloat1{
+  0%{transform:translate(0, 0) scale(1)}
+  50%{transform:translate(-40px, 30px) scale(1.15)}
+  100%{transform:translate(30px, -20px) scale(0.95)}
+}
+@keyframes glowFloat2{
+  0%{transform:translate(0, 0) scale(1)}
+  50%{transform:translate(35px, -45px) scale(1.1)}
+  100%{transform:translate(-30px, 25px) scale(0.9)}
+}
+@keyframes glowFloat3{
+  0%{transform:translate(0, 0) scale(0.9)}
+  100%{transform:translate(-50px, 40px) scale(1.2)}
+}
+
+/* 텍스트 가독성 확보용 소프트 오버레이 */
 .hero::before{
   content:"";
   position:absolute;
   inset:0;
-  z-index:-1;
-  background:linear-gradient(90deg, rgba(6,16,29,0.88) 0%, rgba(6,16,29,0.65) 52%, rgba(6,16,29,0.35) 100%),
-             linear-gradient(0deg, rgba(6,16,29,0.85) 0%, transparent 45%);
+  z-index:3;
+  pointer-events:none;
+  background:linear-gradient(90deg, rgba(6,16,29,0.85) 0%, rgba(6,16,29,0.60) 48%, rgba(6,16,29,0.30) 100%),
+             linear-gradient(0deg, rgba(6,16,29,0.75) 0%, transparent 60%);
 }
-.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:44px;height:44px;border-radius:50%;border:1px solid var(--hero-line);background:rgba(6,16,29,.55);color:#fff;font-size:22px;cursor:pointer;display:grid;place-items:center;padding:0;transition:all .2s;backdrop-filter:blur(8px)}
-.hero-arrow:hover{border-color:var(--teal);background:rgba(14,154,154,.4);transform:translateY(-50%) scale(1.05)}
+
+.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:20;width:44px;height:44px;border-radius:50%;border:1px solid var(--hero-line);background:rgba(6,16,29,.6);color:#fff;font-size:22px;cursor:pointer;display:grid;place-items:center;padding:0;transition:all .2s;backdrop-filter:blur(8px)}
+.hero-arrow:hover{border-color:var(--teal);background:rgba(14,154,154,.5);transform:translateY(-50%) scale(1.08)}
 .hero-arrow.prev{left:18px}.hero-arrow.next{right:18px}
 @media (max-width:900px){.hero-arrow{display:none}}
 
-.hero-dots{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:3;display:flex;gap:8px}
+.hero-dots{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:20;display:flex;gap:8px}
 .hero-dots button{width:10px;height:10px;border-radius:50%;border:0;background:rgba(255,255,255,.35);cursor:pointer;padding:0;transition:all .3s ease}
 .hero-dots button.on{background:var(--teal);width:28px;border-radius:6px;box-shadow:0 0 10px rgba(0,229,255,.6)}
 
+.hero .wrap{position:relative;z-index:10}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:48px;align-items:center}
 .hero h1{font-size:clamp(32px,5.4vw,58px);font-weight:700;margin:18px 0 20px}
 .hero h1 em{font-style:normal;color:#3CC8C7}
@@ -145,11 +172,7 @@ h1,h2,h3{line-height:1.28;letter-spacing:-.02em;text-wrap:balance}
 .flow-row span.n{border:1px solid var(--hero-line);border-radius:8px;padding:9px 6px;text-align:center;font-size:13px;background:rgba(255,255,255,.04)}
 .flow-row i{font-style:normal;color:#3CC8C7;font-size:12px}
 .flow-bus{margin-top:14px;padding:10px;border:1px dashed #3CC8C7;border-radius:8px;text-align:center;font-size:13px;color:#3CC8C7}
-.hero-dots{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;gap:2px}
-.hero-dots button{width:28px;height:28px;border:0;background:none;padding:0;cursor:pointer;display:grid;place-items:center}
-.hero-dots button::after{content:"";width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.38)}
-.hero-dots button.on::after{background:#fff}
-@media (max-width:900px){.hero{padding:48px 0 72px}.hero-grid{grid-template-columns:1fr;gap:32px}.hero::before{background:linear-gradient(180deg,rgba(6,16,29,.82),rgba(6,16,29,.9))}}
+@media (max-width:900px){.hero{padding:48px 0 72px}.hero-grid{grid-template-columns:1fr;gap:32px}.hero::before{background:linear-gradient(180deg,rgba(6,16,29,.85),rgba(6,16,29,.92))}}
 
 /* 신뢰 띠 */
 .trust{background:var(--surface);border-bottom:1px solid var(--line)}
