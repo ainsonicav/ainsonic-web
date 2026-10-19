@@ -231,6 +231,20 @@
       { date: '2026-09-27', title: '시공 고객 정기 점검 안내 서비스', content: '아인소닉에서 시공하신 고객께는 시공 완료 후 6개월, 1년, 2년째에 점검 시기를 안내해 드립니다. 음향 장비 상태, CCTV 녹화 저장장치 상태 등을 확인해 오래 안정적으로 쓰실 수 있도록 돕겠습니다.', pinned: false }
     ];
 
+    var heroBox = $('#heroNoticeList');
+    function renderHero(items) {
+      if (!heroBox) return;
+      clear(heroBox);
+      items.slice(0, 4).forEach(function (n) {
+        var a = el('a', { class: 'hnc-item', href: '#board' },
+          el('span', { class: 'hnc-badge', text: n.pinned ? '공지' : '안내' }),
+          el('span', { class: 'hnc-text', text: String(n.title || '') }),
+          el('span', { class: 'hnc-date', text: String(n.date || '').replace(/-/g, '.') })
+        );
+        heroBox.appendChild(a);
+      });
+    }
+
     function render(items) {
       clear(box);
       if (!items.length) { box.appendChild(emptyBox('등록된 공지사항이 없습니다.')); return; }
@@ -243,6 +257,7 @@
         if (n.content) d.appendChild(el('div', { class: 'body', text: String(n.content) }));
         box.appendChild(d);
       });
+      renderHero(items);
     }
 
     render(FALLBACK_NOTICES);
