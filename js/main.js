@@ -37,6 +37,15 @@
     return d;
   }
   function safeUrl(u, fallback) { return /^https?:\/\//i.test(u || '') ? u : fallback; }
+  function firstUrl(s) { var m = String(s || '').match(/https?:\/\/[^\s]+/); return m ? m[0] : ''; }
+  function textWithLinks(text) {
+    var frag = document.createDocumentFragment();
+    String(text || '').split(/(https?:\/\/[^\s]+)/).forEach(function (part) {
+      if (/^https?:\/\//.test(part)) frag.appendChild(el('a', { href: part, target: '_blank', rel: 'noopener nofollow', text: part }));
+      else if (part) frag.appendChild(document.createTextNode(part));
+    });
+    return frag;
+  }
   function ymd(d) { var p = function (n) { return String(n).padStart(2, '0'); }; return d.getFullYear() + '.' + p(d.getMonth() + 1) + '.' + p(d.getDate()); }
   function fetchJSON(url) {
     return fetch(url + (url.indexOf('?') < 0 ? '?_=' : '&_=') + Date.now()).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
@@ -251,10 +260,12 @@
       items.forEach(function (n) {
         var title = el('span', { class: 't' });
         if (n.pinned) { title.appendChild(el('span', { class: 'pin', text: '공지' })); title.appendChild(document.createTextNode(' ')); }
-        title.appendChild(document.createTextNode(String(n.title || '')));
+        var noticeUrl = firstUrl(n.content);
+        if (noticeUrl) title.appendChild(el('a', { href: noticeUrl, target: '_blank', rel: 'noopener nofollow', text: String(n.title || '') }));
+        else title.appendChild(document.createTextNode(String(n.title || '')));
         var sum = el('summary', null, title, el('span', { class: 'd', text: String(n.date || '').replace(/-/g, '.') }));
         var d = el('details', null, sum);
-        if (n.content) d.appendChild(el('div', { class: 'body', text: String(n.content) }));
+        if (n.content) d.appendChild(el('div', { class: 'body' }, textWithLinks(n.content)));
         box.appendChild(d);
       });
       renderHero(items);
